@@ -10,11 +10,13 @@ route.post('/', async (req, res) => {
     const db = client.db(DB_NAME)
     const users = db.collection('users')
     const arr = await users.find(query).toArray()
-    console.log(arr)
+    console.log("arr = ", arr)
     if (arr.length > 0) {
-        res.send("Valid login")
+        console.log("valid")
+        res.send({msg: "Valid login"})
     } else {
-        res.send("incorrect")
+        console.log("no")
+        res.send({msg: "incorrect"})
     }
 })
 

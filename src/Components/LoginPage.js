@@ -5,29 +5,32 @@ class LoginPage extends Component {
         super(props);
         this.state = {
             username: 'tarun',
-            password: ''
+            password: 'abc'
         }
+
+        this.usernameInput = React.createRef()
+        this.passwordInput = React.createRef()
     }
 
     loginUser = (e) => {
         const target = e.target
-
+        console.log("e = ", e)
+        console.log(this.usernameInput.current.value, this.passwordInput.current.value)
+        this.props.loginUserAPI(this.usernameInput.current.value, this.passwordInput.current.value)
     }
 
     handleChange = (e) => {
-        console.log(e)
+
     }
 
     render() {
         return (
             <div className="p-2 m-2">
-                <form action="">
-                    <input type="text" name="username" onChange={this.handleChange} placeholder={this.state.username}/>
-                    <br/>
-                    <input type="password" name="pass" onChange={this.handleChange} value={this.state.password}/>
-                    <br/>
-                    <button type="submit" onClick={this.loginUser}>Login</button>
-                </form>
+                <input type="text" name="username" ref={this.usernameInput} placeholder={'Username'}/>
+                <br/>
+                <input type="password" name="pass" ref={this.passwordInput} placeholder={'Password'}/>
+                <br/>
+                <button type="submit" onClick={this.loginUser}>Login</button>
             </div>
         );
     }

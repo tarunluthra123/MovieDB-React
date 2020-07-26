@@ -2,8 +2,9 @@ import React from 'react';
 import './App.css';
 import NavBar from "./Components/NavBar";
 import BrowsePage from "./Components/BrowsePage";
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import LoginPage from "./Components/LoginPage";
+import MyMoviesPage from "./Components/MyMoviesPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class App extends React.Component {
         this.state = {
             currentUser: ''
         }
+        console.log('props = ', props)
     }
 
     componentDidMount() {
@@ -26,21 +28,33 @@ class App extends React.Component {
         }
     }
 
-    loginUserAPI = (username, password) => {
-        fetch('/api/login', {
-            name: username,
-            password: password
-        }).then((res) => {
-            if (res === 'incorrect') {
+    loginUserAPI = async (username, password) => {
+        const request = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: username,
+                password: password
+            })
+        }
+        const response = await fetch('/api/login', request)
+        console.log("response = ", response)
+        if (response.ok) {
+            const data = await response.json()
+            // console.log("data = ", data)
+            const msg = data.msg
+            if (msg === 'incorrect') {
                 this.setState({
                     invalidLoginModal: true
                 })
+                alert("Incorrect username or password")
             } else {
                 this.setState({
                     currentUser: username
                 })
+                this.props.history.push('/mymovies')
             }
-        })
+        }
     }
 
     render() {
@@ -53,8 +67,15 @@ class App extends React.Component {
                             <NavBar currentUser={this.state.currentUser}/>
                         </div>
                         <div className="col" id="main">
-                            <Route exact path='/' component={BrowsePage}/>
-                            <Route exact path='/login' component={LoginPage}/>
+                            <Route exact path='/' component={BrowsePage}>
+                                <BrowsePage/>
+                            </Route>
+                            <Route exact path='/login' component={LoginPage}>
+                                <LoginPage loginUserAPI={this.loginUserAPI}/>
+                            </Route>
+                            <Route exact path='/mymovies' component={MyMoviesPage}>
+                                <MyMoviesPage/>
+                            </Route>
                         </div>
                     </div>
 
@@ -64,4 +85,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default withRouter(App);

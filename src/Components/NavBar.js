@@ -7,7 +7,7 @@ class NavBar extends Component {
     }
 
     componentDidMount() {
-        if (this.props.currentUser != '') {
+        if (this.props.currentUser !== '') {
             this.setState({
                 currentUser: this.props.currentUser
             })
