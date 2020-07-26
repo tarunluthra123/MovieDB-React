@@ -1,9 +1,18 @@
 import React from 'react';
 import './App.css';
-import MovieCard from "./Components/MovieCard";
 import NavBar from "./Components/NavBar";
+import BrowsePage from "./Components/BrowsePage";
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import LoginPage from "./Components/LoginPage";
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentUser: ''
+        }
+    }
+
     componentDidMount() {
         this.fetchData().then(console.log)
     }
@@ -17,23 +26,40 @@ class App extends React.Component {
         }
     }
 
+    loginUserAPI = (username, password) => {
+        fetch('/api/login', {
+            name: username,
+            password: password
+        }).then((res) => {
+            if (res === 'incorrect') {
+                this.setState({
+                    invalidLoginModal: true
+                })
+            } else {
+                this.setState({
+                    currentUser: username
+                })
+            }
+        })
+    }
+
     render() {
+        console.log(this.state)
         return (
-            <div className="App">
-                <div className="row">
-                    <div className="col-2">
-                        <NavBar currentUserName={'tarun'}/>
-                    </div>
-                    <div className="col" id="main">
-                        <div className="row">
-                            <MovieCard movieId={'tt0848228'} className="col"/>
-                            <MovieCard movieId={'tt0468569'} className="col"/>
-                            <MovieCard movieId={'tt4154796'} className="col"/>
+            <Router>
+                <div className="App">
+                    <div className="row">
+                        <div className="col-2">
+                            <NavBar currentUser={this.state.currentUser}/>
+                        </div>
+                        <div className="col" id="main">
+                            <Route exact path='/' component={BrowsePage}/>
+                            <Route exact path='/login' component={LoginPage}/>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
+            </Router>
         );
     }
 }

@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient
 const route = require('express').Router()
 
 route.post('/', async (req, res) => {
-    let query = req.body
+    let query = {name: req.body.name}
     console.log(query)
     const client = await MongoClient.connect(MONGO_URL)
     const db = client.db(DB_NAME)
@@ -12,9 +12,11 @@ route.post('/', async (req, res) => {
     const arr = await users.find(query).toArray()
     console.log(arr)
     if (arr.length > 0) {
-        res.send("Valid login")
+        res.send("Username already taken")
     } else {
-        res.send("incorrect")
+        const result = await users.insertOne(req.body)
+        console.log(result)
+        res.send("Success")
     }
 })
 
