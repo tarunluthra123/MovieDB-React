@@ -6,7 +6,8 @@ class MovieCard extends Component {
         super(props);
         this.state = {
             id: props.movieId,
-            loading: false
+            loading: false,
+            currentList: props.currentList
         }
     }
 
@@ -42,6 +43,32 @@ class MovieCard extends Component {
 
     }
 
+    renderButtonBox = () => {
+        const currentList = this.state.currentList
+        if (currentList === 'browse') {
+            return (
+                <div className="row">
+                    <Button variant="info" className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" className="col p-2 m-2">Add to Watchlist</Button>
+                </div>
+            )
+        } else if (currentList === 'mymovies') {
+            return (
+                <div className="row">
+                    <Button variant="danger" className="col p-2 m-2">Remove from My Movies</Button>
+                    <Button variant="success" className="col p-2 m-2">Move to Watchlist</Button>
+                </div>
+            )
+        } else if (currentList === 'watchlist') {
+            return (
+                <div className="row">
+                    <Button variant="info" className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" className="col p-2 m-2">Remove from Watchlist</Button>
+                </div>
+            )
+        }
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -54,9 +81,9 @@ class MovieCard extends Component {
             console.log("Movie = ", movie)
             if (this.state.loading) {
                 return (
-                    <div>
+                    <Card>
                         Loading...
-                    </div>
+                    </Card>
                 )
             }
             return (
@@ -68,7 +95,7 @@ class MovieCard extends Component {
                         <Card.Text>
                             {movie && movie.overview}
                         </Card.Text>
-                        <Button variant="success">Add to Watchlist</Button>
+                        {this.renderButtonBox()}
                     </Card.Body>
                 </Card>
             );

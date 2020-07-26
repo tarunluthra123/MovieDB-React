@@ -2,12 +2,23 @@ import React, {Component} from 'react';
 import MovieCard from "./MovieCard";
 
 class BrowsePage extends Component {
+
+    renderMovie = (movieId)=>{
+        return (
+            <MovieCard movieId={movieId} currentList={'browse'} className="col"/>
+        )
+    }
     render() {
         return (
-            <div className="row">
-                <MovieCard movieId={'tt0848228'} className="col"/>
-                <MovieCard movieId={'tt0468569'} className="col"/>
-                <MovieCard movieId={'tt4154796'} className="col"/>
+            <div className="container">
+                <div className="row">
+                    <input placeholder="Search"/>
+                </div>
+                <div className="row">
+                    {this.renderMovie('tt0848228')}
+                    {this.renderMovie('tt0468569')}
+                    {this.renderMovie('tt4154796')}
+                </div>
             </div>
         );
     }

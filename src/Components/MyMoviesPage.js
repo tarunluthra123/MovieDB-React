@@ -7,52 +7,10 @@ class MyMoviesPage extends Component {
         super(props);
         this.state = {
             currentUser: props.currentUser,
-            movieList: [],
+            movieList: props.movieList,
             loaded: false
         }
         console.log('my movies')
-    }
-
-    componentDidMount() {
-        this.fetchUserMovies().then(() => {
-            console.log('in then function after fetching my movies')
-        })
-    }
-
-    fetchUserMovies = async () => {
-        const response = await fetch('/api/mymovies', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                username: this.props.currentUser
-            })
-        })
-        console.log(response)
-        if (response.ok) {
-            const data = await response.json()
-            console.log(data)
-            const movieNames = data.data.movieNames
-            console.log(movieNames)
-            this.setState({
-                movieList: movieNames,
-                loaded: true
-            })
-        } else {
-            console.log("Could not fetch user movies")
-        }
-    }
-
-    renderMovies = () => {
-        const movieList = this.state.movieList
-        for (let i = 0; i < movieList.length; i++) {
-            const movieId = movieList[i]
-        }
-    }
-
-    renderMovieCard = (imdbMovieId) => {
-        return (
-            <MovieCard movieId={imdbMovieId} className="col"/>
-        )
     }
 
     render() {
@@ -63,13 +21,13 @@ class MyMoviesPage extends Component {
                 </div>
             )
         }
-        const {loaded, movieList} = this.state
+        const {movieList} = this.state
         return (
             <div className="p-2 m-2 row">
-                {loaded && (
+                {movieList && (
                     <React.Fragment>
                         {movieList.map(imdbMovieId => {
-                            return (<MovieCard movieId={imdbMovieId} className="col"/>)
+                            return (<MovieCard movieId={imdbMovieId} currentList={'mymovies'} className="col"/>)
                         })}
                     </React.Fragment>
                 )}

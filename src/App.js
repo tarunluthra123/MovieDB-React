@@ -16,7 +16,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData().then(console.log)
+        this.fetchData().then(this.fetchUserMovies)
     }
 
     fetchData = async () => {
@@ -57,6 +57,28 @@ class App extends React.Component {
         }
     }
 
+    fetchUserMovies = async () => {
+        const response = await fetch('/api/mymovies', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: this.state.currentUser
+            })
+        })
+        console.log(response)
+        if (response.ok) {
+            const data = await response.json()
+            console.log(data)
+            const movieNames = data.data.movieNames
+            console.log(movieNames)
+            this.setState({
+                movieList: movieNames,
+            })
+        } else {
+            console.log("Could not fetch user movies")
+        }
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -74,7 +96,7 @@ class App extends React.Component {
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage currentUser={this.state.currentUser}/>
+                                <MyMoviesPage movieList={this.state.movieList}/>
                             </Route>
                         </div>
                     </div>

@@ -42,6 +42,7 @@ class NavBar extends Component {
         return (
             <div id="mySidenav" className="sidenav">
                 {this.renderUserBox()}
+                <p onClick={() => this.redirectToLink('/')}>Browse</p>
                 <p onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
                 <p onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
                 <p onClick={() => this.redirectToLink('/logout')}>Log out</p>
