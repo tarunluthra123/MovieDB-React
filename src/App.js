@@ -5,6 +5,7 @@ import BrowsePage from "./Components/BrowsePage";
 import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import LoginPage from "./Components/LoginPage";
 import MyMoviesPage from "./Components/MyMoviesPage";
+import WatchlistPage from "./Components/WatchlistPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchData().then(this.fetchUserMovies)
+        this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
     }
 
     fetchData = async () => {
@@ -79,6 +80,30 @@ class App extends React.Component {
         }
     }
 
+
+    fetchUserWatchList = async () => {
+        const response = await fetch('/api/watchlist', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: this.state.currentUser
+            })
+        })
+        console.log(response)
+        if (response.ok) {
+            const data = await response.json()
+            console.log(data)
+            const watch = data.data.watch
+            console.log(watch)
+            this.setState({
+                watchMovies: watch,
+            })
+            console.log('Fetched watchlist', watch)
+        } else {
+            console.log("Could not fetch watchlist")
+        }
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -97,6 +122,9 @@ class App extends React.Component {
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
                                 <MyMoviesPage movieList={this.state.movieList}/>
+                            </Route>
+                            <Route exact path='/watchlist' component={WatchlistPage}>
+                                <WatchlistPage watchMovies={this.state.watchMovies}/>
                             </Route>
                         </div>
                     </div>
