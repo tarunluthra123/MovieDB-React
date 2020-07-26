@@ -34,14 +34,18 @@ class NavBar extends Component {
         }
     }
 
+    redirectToLink = (link) => {
+        this.props.history.push(link)
+    }
+
     render() {
         return (
             <div id="mySidenav" className="sidenav">
                 {this.renderUserBox()}
-                <a href="#">My Movies </a>
-                <a href="#">Watchlist</a>
-                <a href="#">Log out</a>
-                <a href="#">About</a>
+                <p onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
+                <p onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
+                <p onClick={() => this.redirectToLink('/logout')}>Log out</p>
+                <p onClick={() => this.redirectToLink('/about')}>About</p>
                 <br/><br/><br/>
                 Info from TMDB
             </div>

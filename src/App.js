@@ -10,7 +10,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: ''
+            currentUser: 'tarun'
         }
         console.log('props = ', props)
     }
@@ -52,7 +52,7 @@ class App extends React.Component {
                 this.setState({
                     currentUser: username
                 })
-                this.props.history.push('/mymovies')
+                this.props.history.push('/')
             }
         }
     }
@@ -74,7 +74,7 @@ class App extends React.Component {
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage/>
+                                <MyMoviesPage currentUser={this.state.currentUser}/>
                             </Route>
                         </div>
                     </div>
