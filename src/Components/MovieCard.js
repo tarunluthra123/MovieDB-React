@@ -7,7 +7,8 @@ class MovieCard extends Component {
         this.state = {
             id: props.movieId,
             loading: false,
-            currentList: props.currentList
+            currentList: props.currentList,
+            flag: true
         }
     }
 
@@ -32,6 +33,12 @@ class MovieCard extends Component {
                     error: null,
                     loading: false
                 })
+                console.log('movie overview =', movie.overview.length)
+                if (movie.overview.length >= 150) {
+                    this.setState({
+                        flag: false
+                    })
+                }
             } else {
                 const error = (await res.json()).message
                 this.setState({
@@ -81,6 +88,36 @@ class MovieCard extends Component {
         }
     }
 
+    renderMovieDescription = () => {
+        const {loading, flag, movie} = this.state
+        if (loading)
+            return <p>Loading..</p>
+        let text = movie.overview
+        if (flag) {
+            //Read more not required
+            return (
+                <p>
+                    {text}
+                </p>
+            )
+        } else {
+            let shorterText = text.substr(0, 145)
+            return (
+                <div>
+                    {shorterText}...
+                    <br/>
+                    <button type="button" className="btn btn-link" onClick={() => {
+                        this.setState({
+                            flag: true
+                        })
+                    }}>Read More
+                    </button>
+                </div>
+            )
+        }
+
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -105,7 +142,7 @@ class MovieCard extends Component {
                     <Card.Body>
                         <Card.Title className="h1">{movie && movie.title}</Card.Title>
                         <Card.Text>
-                            {movie && movie.overview}
+                            {!this.state.loading && movie && this.renderMovieDescription()}
                         </Card.Text>
                         {this.renderButtonBox()}
                     </Card.Body>
