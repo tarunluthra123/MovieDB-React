@@ -141,24 +141,25 @@ class App extends React.Component {
             })
         }
 
-        // const response = await fetch('/api/updateList', {
-        //     method: 'post',
-        //     headers: {'Content-Type': 'application/json'},
-        //     body: JSON.stringify({
-        //         username: this.state.currentUser,
-        //         removeFromList: removeFromList,
-        //         addToList: addToList
-        //     })
-        // })
-        //
-        // console.log(response)
-        //
-        // if (response.ok) {
-        //     const data = await response.json()
-        //     console.log(data)
-        // } else {
-        //     console.log('could not update')
-        // }
+        const response = await fetch('/api/updateList', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: this.state.currentUser,
+                removeFromList: removeFromList,
+                addToList: addToList,
+                movieId: movieId
+            })
+        })
+
+        console.log(response)
+
+        if (response.ok) {
+            const data = await response.json()
+            console.log(data)
+        } else {
+            console.log('could not update')
+        }
     }
 
     render() {
