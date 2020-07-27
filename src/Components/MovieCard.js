@@ -26,8 +26,7 @@ class MovieCard extends Component {
             // const url = `https://api.themoviedb.org/3/find/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&external_source=imdb_id`
             const res = await fetch(url)
             if (res.ok) {
-                const data = await res.json()
-                const movie = data
+                const movie = await res.json()
                 this.setState({
                     movie: movie,
                     error: null,
