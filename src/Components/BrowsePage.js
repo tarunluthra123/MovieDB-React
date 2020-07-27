@@ -6,7 +6,8 @@ class BrowsePage extends Component {
         super(props);
         this.state = {
             browseMovies: [],
-            currentPage: 1
+            currentPage: 1,
+            loading: false
         }
     }
 
@@ -25,9 +26,9 @@ class BrowsePage extends Component {
         const maxScroll = document.body.offsetHeight - window.innerHeight;
         const {currentPage} = this.state;
 
-        console.log(currentScroll, maxScroll)
+        // console.log(currentScroll, maxScroll)
 
-        if (maxScroll - currentScroll <= 100) {
+        if (maxScroll - currentScroll <= 120) {
             this.setState({
                 currentPage: this.state.currentPage + 1
             })
@@ -51,6 +52,9 @@ class BrowsePage extends Component {
             const results = data['results']
             results.forEach(result => {
                 const movieId = result['id']
+                if (this.props.movieList.includes(movieId) || this.props.watchMovies.includes(movieId)) {
+                    return
+                }
                 browseMovies.push(movieId)
             })
         } else {
@@ -61,19 +65,46 @@ class BrowsePage extends Component {
         })
     }
 
+
+    updateLists = (movieId, currentList, addToList) => {
+        this.setState({
+            loading: true
+        }, async () => {
+            await this.props.updateLists(movieId, currentList, addToList)
+            let browseMovies = this.state.browseMovies
+            let index = browseMovies.indexOf(movieId)
+            if (index > -1) {
+                browseMovies.splice(index, 1)
+                this.setState({
+                    browseMovies: browseMovies
+                })
+            }
+            this.setState({
+                loading: false,
+                currentPage: 1
+            })
+        })
+
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return true
+    }
+
     render() {
-        const browseMovies = this.state.browseMovies
+        const {loading, browseMovies} = this.state
         return (
             <div className="">
                 <div className=" row">
                     <input placeholder=" Search"/>
                 </div>
                 <div className=" row">
-                    {browseMovies && (
+                    {loading && (<p>Loading...</p>)}
+                    {!loading && browseMovies && (
                         <React.Fragment>
                             {browseMovies.map(imdbMovieId => {
                                 return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col"
-                                                   updateLists={this.props.updateLists}/>)
+                                                   updateLists={this.updateLists}/>)
                             })}
                         </React.Fragment>
                     )}

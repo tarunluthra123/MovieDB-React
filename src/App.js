@@ -112,21 +112,23 @@ class App extends React.Component {
         if (removeFromList === 'mymovies') {
             let movieList = this.state.movieList
             const index = movieList.indexOf(movieId);
+            console.log('index = ', index)
             if (index > -1) {
                 movieList.splice(index, 1);
+                this.setState({
+                    movieList: movieList
+                })
             }
-            this.setState({
-                movieList: movieList
-            })
         } else if (removeFromList === 'watchlist') {
             let watchlist = this.state.watchMovies
             const index = watchlist.indexOf(movieId)
+            console.log('index = ', index)
             if (index > -1) {
                 watchlist.splice(index, 1)
+                this.setState({
+                    watchMovies: watchlist
+                })
             }
-            this.setState({
-                watchMovies: watchlist
-            })
         }
 
         if (addToList === 'mymovies') {

@@ -9,7 +9,7 @@ async function addToMyMovies(username, movieId) {
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
-        {$push: {movieNames: movieId}}
+        {$addToSet: {movieNames: movieId}}
     )
     // console.log(res)
     return res
@@ -21,7 +21,7 @@ async function addToWatchlist(username, movieId) {
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
-        {$push: {watch: movieId}}
+        {$addToSet: {watch: movieId}}
     )
     // console.log(res)
     return res
@@ -33,7 +33,7 @@ async function removeFromMyMovies(username, movieId) {
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
-        {$pull: {movieNames: {$in: [`${movieId}`]}}}
+        {$pull: {movieNames: {$in: [movieId]}}}
     )
     // console.log(res)
     return res
@@ -45,7 +45,7 @@ async function removeFromWatchlist(username, movieId) {
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
-        {$pull: {watch: {$in: [`${movieId}`]}}}
+        {$pull: {watch: {$in: [movieId]}}}
     )
     // console.log(res)
     return res

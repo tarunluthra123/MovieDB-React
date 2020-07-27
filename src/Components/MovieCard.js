@@ -50,9 +50,11 @@ class MovieCard extends Component {
         if (currentList === 'browse') {
             return (
                 <div className="row">
-                    <Button variant="info" onClick={() => this.props.updateLists(movieId, currentList, 'mymovies')}
+                    <Button variant="info"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
                             className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
+                    <Button variant="success"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'watchlist')}
                             className="col p-2 m-2">Add to Watchlist</Button>
                 </div>
             )
@@ -68,9 +70,11 @@ class MovieCard extends Component {
         } else if (currentList === 'watchlist') {
             return (
                 <div className="row">
-                    <Button variant="info" onClick={() => this.props.updateLists(movieId, currentList, 'mymovies')}
+                    <Button variant="info"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
                             className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
+                    <Button variant="success"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'browse')}
                             className="col p-2 m-2">Remove from Watchlist</Button>
                 </div>
             )
