@@ -22,23 +22,25 @@ class MovieCard extends Component {
         this.setState({
             loading: true
         }, async () => {
-            const url = `https://api.themoviedb.org/3/find/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&external_source=imdb_id`
+            const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US`
+            // const url = `https://api.themoviedb.org/3/find/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&external_source=imdb_id`
             const res = await fetch(url)
             if (res.ok) {
                 const data = await res.json()
-                const movie = data.movie_results[0]
-                return this.setState({
+                const movie = data
+                this.setState({
                     movie: movie,
                     error: null,
                     loading: false
                 })
+            } else {
+                const error = (await res.json()).message
+                this.setState({
+                    error: error,
+                    loading: false
+                })
             }
 
-            const error = (await res.json()).message
-            this.setState({
-                error: error,
-                loading: false
-            })
         })
 
     }
@@ -49,22 +51,28 @@ class MovieCard extends Component {
         if (currentList === 'browse') {
             return (
                 <div className="row">
-                    <Button variant="info" onClick={()=>this.props.updateLists(movieId,currentList,'mymovies')} className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'watchlist')} className="col p-2 m-2">Add to Watchlist</Button>
+                    <Button variant="info" onClick={() => this.props.updateLists(movieId, currentList, 'mymovies')}
+                            className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
+                            className="col p-2 m-2">Add to Watchlist</Button>
                 </div>
             )
         } else if (currentList === 'mymovies') {
             return (
                 <div className="row">
-                    <Button variant="danger" onClick={()=>this.props.updateLists(movieId,currentList,'browse')} className="col p-2 m-2">Remove from My Movies</Button>
-                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'watchlist')} className="col p-2 m-2">Move to Watchlist</Button>
+                    <Button variant="danger" onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
+                            className="col p-2 m-2">Remove from My Movies</Button>
+                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
+                            className="col p-2 m-2">Move to Watchlist</Button>
                 </div>
             )
         } else if (currentList === 'watchlist') {
             return (
                 <div className="row">
-                    <Button variant="info"  onClick={()=>this.props.updateLists(movieId,currentList,'mymovies')} className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'browse')} className="col p-2 m-2">Remove from Watchlist</Button>
+                    <Button variant="info" onClick={() => this.props.updateLists(movieId, currentList, 'mymovies')}
+                            className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
+                            className="col p-2 m-2">Remove from Watchlist</Button>
                 </div>
             )
         }

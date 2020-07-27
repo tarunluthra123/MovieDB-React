@@ -11,7 +11,9 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: 'tarun'
+            currentUser: 'tarun',
+            movieList: [],
+            watchMovies: []
         }
         console.log('props = ', props)
     }
@@ -173,7 +175,8 @@ class App extends React.Component {
                         </div>
                         <div className="col" id="main">
                             <Route exact path='/' component={BrowsePage}>
-                                <BrowsePage updateLists={this.updateLists}/>
+                                <BrowsePage updateLists={this.updateLists} movieList={this.state.movieList}
+                                            watchMovies={this.state.watchMovies}/>
                             </Route>
                             <Route exact path='/login' component={LoginPage}>
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
