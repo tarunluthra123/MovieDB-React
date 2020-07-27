@@ -5,7 +5,7 @@ class BrowsePage extends Component {
 
     renderMovie = (movieId)=>{
         return (
-            <MovieCard movieId={movieId} currentList={'browse'} className="col"/>
+            <MovieCard movieId={movieId} currentList={'browse'} updateLists={this.props.updateLists} className="col"/>
         )
     }
     render() {

@@ -17,7 +17,7 @@ class WatchlistPage extends Component {
                 {watchMovies && (
                     <React.Fragment>
                         {watchMovies.map(imdbMovieId => {
-                            return (<MovieCard movieId={imdbMovieId} currentList={'watchlist'} className="col"/>)
+                            return (<MovieCard movieId={imdbMovieId} currentList={'watchlist'} className="col" updateLists={this.props.updateLists}/>)
                         })}
                     </React.Fragment>
                 )}

@@ -45,25 +45,26 @@ class MovieCard extends Component {
 
     renderButtonBox = () => {
         const currentList = this.state.currentList
+        const movieId = this.state.id
         if (currentList === 'browse') {
             return (
                 <div className="row">
-                    <Button variant="info" className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" className="col p-2 m-2">Add to Watchlist</Button>
+                    <Button variant="info" onClick={()=>this.props.updateLists(movieId,currentList,'mymovies')} className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'watchlist')} className="col p-2 m-2">Add to Watchlist</Button>
                 </div>
             )
         } else if (currentList === 'mymovies') {
             return (
                 <div className="row">
-                    <Button variant="danger" className="col p-2 m-2">Remove from My Movies</Button>
-                    <Button variant="success" className="col p-2 m-2">Move to Watchlist</Button>
+                    <Button variant="danger" onClick={()=>this.props.updateLists(movieId,currentList,'browse')} className="col p-2 m-2">Remove from My Movies</Button>
+                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'watchlist')} className="col p-2 m-2">Move to Watchlist</Button>
                 </div>
             )
         } else if (currentList === 'watchlist') {
             return (
                 <div className="row">
-                    <Button variant="info" className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success" className="col p-2 m-2">Remove from Watchlist</Button>
+                    <Button variant="info"  onClick={()=>this.props.updateLists(movieId,currentList,'mymovies')} className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success" onClick={()=>this.props.updateLists(movieId,currentList,'browse')} className="col p-2 m-2">Remove from Watchlist</Button>
                 </div>
             )
         }

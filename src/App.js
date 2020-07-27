@@ -17,6 +17,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        // this.fetchData()
         this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
     }
 
@@ -104,6 +105,62 @@ class App extends React.Component {
         }
     }
 
+    updateLists = async (movieId, removeFromList, addToList) => {
+        console.log('Move ' + movieId + ' from ' + removeFromList + ' addTo ' + addToList)
+        if (removeFromList === 'mymovies') {
+            let movieList = this.state.movieList
+            const index = movieList.indexOf(movieId);
+            if (index > -1) {
+                movieList.splice(index, 1);
+            }
+            this.setState({
+                movieList: movieList
+            })
+        } else if (removeFromList === 'watchlist') {
+            let watchlist = this.state.watchMovies
+            const index = watchlist.indexOf(movieId)
+            if (index > -1) {
+                watchlist.splice(index, 1)
+            }
+            this.setState({
+                watchMovies: watchlist
+            })
+        }
+
+        if (addToList === 'mymovies') {
+            let movieList = this.state.movieList
+            movieList.push(movieId)
+            this.setState({
+                movieList: movieList
+            })
+        } else if (addToList === 'watchlist') {
+            let watchMovies = this.state.watchMovies
+            watchMovies.push(movieId)
+            this.setState({
+                watchMovies: watchMovies
+            })
+        }
+
+        // const response = await fetch('/api/updateList', {
+        //     method: 'post',
+        //     headers: {'Content-Type': 'application/json'},
+        //     body: JSON.stringify({
+        //         username: this.state.currentUser,
+        //         removeFromList: removeFromList,
+        //         addToList: addToList
+        //     })
+        // })
+        //
+        // console.log(response)
+        //
+        // if (response.ok) {
+        //     const data = await response.json()
+        //     console.log(data)
+        // } else {
+        //     console.log('could not update')
+        // }
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -115,16 +172,16 @@ class App extends React.Component {
                         </div>
                         <div className="col" id="main">
                             <Route exact path='/' component={BrowsePage}>
-                                <BrowsePage/>
+                                <BrowsePage updateLists={this.updateLists}/>
                             </Route>
                             <Route exact path='/login' component={LoginPage}>
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage movieList={this.state.movieList}/>
+                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists}/>
                             </Route>
                             <Route exact path='/watchlist' component={WatchlistPage}>
-                                <WatchlistPage watchMovies={this.state.watchMovies}/>
+                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}/>
                             </Route>
                         </div>
                     </div>

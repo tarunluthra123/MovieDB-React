@@ -27,7 +27,7 @@ class MyMoviesPage extends Component {
                 {movieList && (
                     <React.Fragment>
                         {movieList.map(imdbMovieId => {
-                            return (<MovieCard movieId={imdbMovieId} currentList={'mymovies'} className="col"/>)
+                            return (<MovieCard movieId={imdbMovieId} currentList={'mymovies'} className="col" updateLists={this.props.updateLists}/>)
                         })}
                     </React.Fragment>
                 )}
