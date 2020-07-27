@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import LoginPage from "./Components/LoginPage";
 import MyMoviesPage from "./Components/MyMoviesPage";
 import WatchlistPage from "./Components/WatchlistPage";
+import MoviePage from "./Components/MoviePage";
 
 class App extends React.Component {
     constructor(props) {
@@ -188,6 +189,9 @@ class App extends React.Component {
                             </Route>
                             <Route exact path='/watchlist' component={WatchlistPage}>
                                 <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}/>
+                            </Route>
+                            <Route exact path='/about' component={MoviePage}>
+                                <MoviePage movieId={11}/>
                             </Route>
                         </div>
                     </div>

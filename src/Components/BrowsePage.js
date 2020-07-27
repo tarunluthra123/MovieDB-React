@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import MovieCard from "./MovieCard";
+import SearchBox from "./SearchBox";
+import {Card} from "react-bootstrap";
 
 class BrowsePage extends Component {
     constructor(props) {
@@ -87,16 +89,15 @@ class BrowsePage extends Component {
 
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return true
-    }
 
     render() {
         const {loading, browseMovies} = this.state
         return (
             <div className="">
-                <div className=" row">
-                    <input placeholder=" Search"/>
+                <div className="row" style={{flex: 'space-around'}}>
+                    <Card style={{width: '50rem'}}>
+                        <SearchBox/>
+                    </Card>
                 </div>
                 <div className=" row">
                     {loading && (<p>Loading...</p>)}
