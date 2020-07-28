@@ -190,7 +190,10 @@ class App extends React.Component {
                             <Route exact path='/watchlist' component={WatchlistPage}>
                                 <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}/>
                             </Route>
-                            <Route exact path='/movie/:movieId' component={MoviePage}/>
+                            <Route exact path='/movie/:movieId' render={({match}) => (
+                                <MoviePage movieList={this.state.movieList} watchMovies={this.state.watchMovies}
+                                           updateLists={this.updateLists} match={match}/>)}>
+                            </Route>
                         </div>
                     </div>
 

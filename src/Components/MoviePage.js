@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import imdbLogo from '../imdb_logo.png'
+import {Button} from "react-bootstrap";
 
 class MoviePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             movieId: props.match.params.movieId,
-            loading: true
+            loading: true,
+            movieList: props.movieList,
+            watchMovies: props.watchMovies
         }
-        console.log("props = ", props.match.params.movieId)
+        console.log("props.match = ", props.match)
     }
 
     componentDidMount() {
@@ -48,9 +51,53 @@ class MoviePage extends Component {
         const badges = []
         for (const obj of genres) {
             const name = obj.name
-            badges.push(<span className="badge badge-light m-2 p-2"><h4>{name}</h4></span>)
+            badges.push(<span className="badge badge-secondary btn-outline-dark m-2 p-2"><h4>{name}</h4></span>)
         }
         return badges
+    }
+
+    renderMoveListOptions = (movieId) => {
+        const {movieList, watchMovies} = this.state
+        let currentList = 'browse'
+        if (movieList.includes(movieId)) {
+            currentList = 'mymovies'
+        } else if (watchMovies.includes(movieId)) {
+            currentList = 'watchlist'
+        }
+
+
+        if (currentList === 'browse') {
+            return (
+                <div className="row">
+                    <Button variant="info"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
+                            className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'watchlist')}
+                            className="col p-2 m-2">Add to Watchlist</Button>
+                </div>
+            )
+        } else if (currentList === 'mymovies') {
+            return (
+                <div className="row">
+                    <Button variant="danger" onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
+                            className="col p-2 m-2">Remove from My Movies</Button>
+                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
+                            className="col p-2 m-2">Move to Watchlist</Button>
+                </div>
+            )
+        } else if (currentList === 'watchlist') {
+            return (
+                <div className="row">
+                    <Button variant="info"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
+                            className="col p-2 m-2">Add to My Movies</Button>
+                    <Button variant="success"
+                            onClick={async () => await this.props.updateLists(movieId, currentList, 'browse')}
+                            className="col p-2 m-2">Remove from Watchlist</Button>
+                </div>
+            )
+        }
     }
 
 
@@ -84,24 +131,31 @@ class MoviePage extends Component {
                 <section style={sectionStyle} className="moviePageBackgroundImage">
                     <div className="row m-5">
                         <div className="col-8 p-2 m-2">
-                            <h1 align="center" className="display-3">{movie && movie.original_title}</h1>
+                            <h1 align="center" className="display-2 strokeme">
+                                {movie && movie.original_title}
+                            </h1>
                             <div className="row">
                                 <div className="col">
                                     {movie && this.renderGenres()}
                                 </div>
                                 <div className="col-3 moviePageReleaseDate">
-                                <span className="badge btn-outline-info m-2 p-2">
-                                    {movie && movie.release_date}
+                                <span className="btn-lg btn btn-light btn-outline-dark m-2 p-2">
+                                    <h2>{movie && movie.release_date}</h2>
                                 </span>
                                 </div>
                             </div>
-                            <div className="row moviePageOverview m-2 p-2">
+                            <div className="row moviePageOverview m-2 p-2 card card-body">
                                 {movie && movie.overview}
                             </div>
                             <div className="row">
-                                <a href={`https:/imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
-                                    <img src={imdbLogo} height={"100"} alt={"IMDB"}/>
-                                </a>
+                                <div className="col-3">
+                                    <a href={`https:/imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
+                                        <img src={imdbLogo} height={"100"} alt={"IMDB"}/>
+                                    </a>
+                                </div>
+                                <div className="col">
+                                    {movie && this.renderMoveListOptions(movie.id)}
+                                </div>
                             </div>
                         </div>
                         <div className="col p-2 m-2">
