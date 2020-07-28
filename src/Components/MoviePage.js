@@ -69,10 +69,10 @@ class MoviePage extends Component {
         if (currentList === 'browse') {
             return (
                 <div className="row">
-                    <Button variant="info"
+                    <Button variant="info" size="lg"
                             onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
                             className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success"
+                    <Button variant="success" size="lg"
                             onClick={async () => await this.props.updateLists(movieId, currentList, 'watchlist')}
                             className="col p-2 m-2">Add to Watchlist</Button>
                 </div>
@@ -80,19 +80,21 @@ class MoviePage extends Component {
         } else if (currentList === 'mymovies') {
             return (
                 <div className="row">
-                    <Button variant="danger" onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
+                    <Button variant="danger" size="lg"
+                            onClick={() => this.props.updateLists(movieId, currentList, 'browse')}
                             className="col p-2 m-2">Remove from My Movies</Button>
-                    <Button variant="success" onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
+                    <Button variant="success" size="lg"
+                            onClick={() => this.props.updateLists(movieId, currentList, 'watchlist')}
                             className="col p-2 m-2">Move to Watchlist</Button>
                 </div>
             )
         } else if (currentList === 'watchlist') {
             return (
                 <div className="row">
-                    <Button variant="info"
+                    <Button variant="info" size="lg"
                             onClick={async () => await this.props.updateLists(movieId, currentList, 'mymovies')}
                             className="col p-2 m-2">Add to My Movies</Button>
-                    <Button variant="success"
+                    <Button variant="success" size="lg"
                             onClick={async () => await this.props.updateLists(movieId, currentList, 'browse')}
                             className="col p-2 m-2">Remove from Watchlist</Button>
                 </div>
@@ -157,11 +159,15 @@ class MoviePage extends Component {
                                     {movie && this.renderMoveListOptions(movie.id)}
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className={"card card-body"}>
+                                    <h6><i>{movie && '"' + movie.tagline + '"'}</i></h6>
+                                </div>
+                            </div>
                         </div>
                         <div className="col p-2 m-2">
                             <img src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
                                  alt={`${movie && movie.original_title}`} height="500"/>
-
                         </div>
                     </div>
                 </section>

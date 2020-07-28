@@ -136,17 +136,19 @@ class MovieCard extends Component {
             if (this.state.loading) {
                 return (
                     <Card>
-                        Loading...
+                        <Card.Body>
+                            Loading...
+                        </Card.Body>
                     </Card>
                 )
             }
             return (
                 <Card style={{width: '18rem'}} className="border-dark p-2 m-3">
                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
-                              height="400" onClick={this.redirectToMoviePage}/>
+                              height="400" onClick={this.redirectToMoviePage} className={"btn"}/>
                     <Card.Body>
-                        <Card.Title className="h1"
-                                    onClick={this.redirectToMoviePage}>{movie && movie.title}</Card.Title>
+                        <Card.Title className="h1 btn"
+                                    onClick={this.redirectToMoviePage}>{movie && movie.title + ' ('+movie.release_date.substr(0, 4) +')'}</Card.Title>
                         <Card.Text>
                             {!this.state.loading && movie && this.renderMovieDescription()}
                         </Card.Text>

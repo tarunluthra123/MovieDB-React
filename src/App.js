@@ -7,6 +7,7 @@ import LoginPage from "./Components/LoginPage";
 import MyMoviesPage from "./Components/MyMoviesPage";
 import WatchlistPage from "./Components/WatchlistPage";
 import MoviePage from "./Components/MoviePage";
+import AboutPage from "./Components/AboutPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -194,6 +195,7 @@ class App extends React.Component {
                                 <MoviePage movieList={this.state.movieList} watchMovies={this.state.watchMovies}
                                            updateLists={this.updateLists} match={match}/>)}>
                             </Route>
+                            <Route exact path='/about' component={AboutPage}/>
                         </div>
                     </div>
 

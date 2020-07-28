@@ -77,7 +77,7 @@ class SearchBox extends Component {
         return (
             <div className="container card card-body">
                 <div className="row">
-                    <div className="col-8">
+                    <div className="col">
                         <input placeholder="Search By Title" className="form-group" ref={this.searchBoxInput}
                                size={45}/>
                     </div>
