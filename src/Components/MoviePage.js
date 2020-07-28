@@ -5,24 +5,28 @@ class MoviePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieId: props.movieId,
+            movieId: props.match.params.movieId,
             loading: true
         }
+        console.log("props = ", props.match.params.movieId)
     }
 
     componentDidMount() {
-        this.fetchData(this.props.movieId).then(() => console.log('MoviePage loaded'))
+        this.fetchData(this.state.movieId).then(() => console.log('MoviePage loaded'))
     }
 
     fetchData = async (movieId) => {
         this.setState({
             loading: true
         }, async () => {
+            console.log("Movie page ", movieId)
             const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US`
             // const url = `https://api.themoviedb.org/3/find/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&external_source=imdb_id`
             const res = await fetch(url)
+            console.log("Movie Page - res = ", res)
             if (res.ok) {
                 const movie = await res.json()
+                console.log("Movie page=", movie)
                 this.setState({
                     movie: movie,
                     error: null,
@@ -30,6 +34,7 @@ class MoviePage extends Component {
                 })
             } else {
                 const error = (await res.json()).message
+                console.log(error)
                 this.setState({
                     error: error,
                     loading: false
@@ -50,7 +55,7 @@ class MoviePage extends Component {
 
 
     render() {
-        const {loading, movie} = this.state
+        const {loading, movie, error} = this.state
         if (loading) {
             return (
                 <div>
@@ -58,42 +63,50 @@ class MoviePage extends Component {
                 </div>
             )
         }
-        var sectionStyle = {
+        if (error) {
+            return (
+                <div>
+                    <h3>Error fetching movie details</h3>
+                </div>
+            )
+        }
+        const sectionStyle = {
             width: "100%",
             height: "900px",
             backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie && movie.backdrop_path})`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat'
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: 'rgba(255, 255, 255, 0.3)'
         };
         return (
-            <div>
-                <section style={sectionStyle}>
+            <div className="row">
+                <section style={sectionStyle} className="moviePageBackgroundImage">
                     <div className="row m-5">
                         <div className="col-8 p-2 m-2">
-                            <h1 align="center" className="display-3">{movie.original_title}</h1>
+                            <h1 align="center" className="display-3">{movie && movie.original_title}</h1>
                             <div className="row">
                                 <div className="col">
-                                    {this.renderGenres()}
+                                    {movie && this.renderGenres()}
                                 </div>
                                 <div className="col-3 moviePageReleaseDate">
                                 <span className="badge btn-outline-info m-2 p-2">
-                                {movie.release_date}
+                                    {movie && movie.release_date}
                                 </span>
                                 </div>
                             </div>
                             <div className="row moviePageOverview m-2 p-2">
-                                {movie.overview}
+                                {movie && movie.overview}
                             </div>
                             <div className="row">
-                                <a href={`https:/imdb.com/title/${movie.imdb_id}`} target={'_blank'}>
+                                <a href={`https:/imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
                                     <img src={imdbLogo} height={"100"} alt={"IMDB"}/>
                                 </a>
                             </div>
                         </div>
                         <div className="col p-2 m-2">
                             <img src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
-                                 alt={`${movie.original_title}`} height="500"/>
+                                 alt={`${movie && movie.original_title}`} height="500"/>
 
                         </div>
                     </div>

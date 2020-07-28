@@ -173,10 +173,10 @@ class App extends React.Component {
             <Router>
                 <div className="App">
                     <div className="row">
-                        <div className="col-2">
+                        <div className="col-2 p-0">
                             <NavBar currentUser={this.state.currentUser}/>
                         </div>
-                        <div className="col" id="main">
+                        <div className="col p-0" id="main">
                             <Route exact path='/' component={BrowsePage}>
                                 <BrowsePage updateLists={this.updateLists} movieList={this.state.movieList}
                                             watchMovies={this.state.watchMovies}/>
@@ -190,9 +190,7 @@ class App extends React.Component {
                             <Route exact path='/watchlist' component={WatchlistPage}>
                                 <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}/>
                             </Route>
-                            <Route exact path='/about' component={MoviePage}>
-                                <MoviePage movieId={11}/>
-                            </Route>
+                            <Route exact path='/movie/:movieId' component={MoviePage}/>
                         </div>
                     </div>
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Card} from "react-bootstrap";
+import {withRouter} from 'react-router-dom';
 
 class MovieCard extends Component {
     constructor(props) {
@@ -118,6 +119,10 @@ class MovieCard extends Component {
 
     }
 
+    redirectToMoviePage = () => {
+        this.props.history.push('/movie/' + this.state.movie.id)
+    }
+
     render() {
         if (this.state.loading) {
             return (
@@ -138,9 +143,10 @@ class MovieCard extends Component {
             return (
                 <Card style={{width: '18rem'}} className="border-dark p-2 m-3">
                     <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
-                              height="400"/>
+                              height="400" onClick={this.redirectToMoviePage}/>
                     <Card.Body>
-                        <Card.Title className="h1">{movie && movie.title}</Card.Title>
+                        <Card.Title className="h1"
+                                    onClick={this.redirectToMoviePage}>{movie && movie.title}</Card.Title>
                         <Card.Text>
                             {!this.state.loading && movie && this.renderMovieDescription()}
                         </Card.Text>
@@ -152,4 +158,4 @@ class MovieCard extends Component {
     }
 }
 
-export default MovieCard;
+export default withRouter(MovieCard);
