@@ -19,9 +19,6 @@ class LoginPage extends Component {
         this.props.loginUserAPI(this.usernameInput.current.value, this.passwordInput.current.value)
     }
 
-    handleChange = (e) => {
-
-    }
 
     render() {
         return (

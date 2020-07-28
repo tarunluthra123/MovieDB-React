@@ -9,7 +9,9 @@ class BrowsePage extends Component {
         this.state = {
             browseMovies: [],
             currentPage: 1,
-            loading: false
+            loading: false,
+            searching: false,
+            searchQueryText: ''
         }
     }
 
@@ -34,15 +36,53 @@ class BrowsePage extends Component {
             this.setState({
                 currentPage: this.state.currentPage + 1
             })
-            this.renderBrowseMovies()
+            if (this.state.searching) {
+                this.searchMoviesOnQuery(this.state.searchQueryText)
+            } else {
+                this.renderBrowseMovies()
+            }
         }
     }
 
-
-    renderMovie = (movieId) => {
-        return (
-            <MovieCard movieId={movieId} currentList={'browse'} updateLists={this.props.updateLists} className="col"/>
-        )
+    searchMoviesOnQuery = async (searchQueryText) => {
+        if (searchQueryText === '') {
+            this.setState({
+                searching: false,
+                currentPage: 1,
+                browseMovies: []
+            })
+            this.renderBrowseMovies()
+            return
+        } else if (searchQueryText === this.state.searchQueryText) {
+            //Load next page
+        } else {
+            //New search
+            this.setState({
+                searchQueryText: searchQueryText,
+                currentPage: 1,
+                searching: true,
+                browseMovies: []
+            })
+        }
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&query=${searchQueryText}&page=${this.state.currentPage}&include_adult=false`
+        const response = await fetch(url)
+        const browseMovies = []
+        if (response.ok) {
+            const data = await response.json()
+            const results = data['results']
+            results.forEach(result => {
+                const movieId = result['id']
+                if (this.props.movieList.includes(movieId) || this.props.watchMovies.includes(movieId)) {
+                    return
+                }
+                browseMovies.push(movieId)
+            })
+        } else {
+            console.log('No browse movies')
+        }
+        this.setState({
+            browseMovies: [...this.state.browseMovies, ...browseMovies]
+        })
     }
 
     renderBrowseMovies = async () => {
@@ -96,7 +136,7 @@ class BrowsePage extends Component {
             <div className="">
                 <div className="row" style={{flex: 'space-around'}}>
                     <Card style={{width: '50rem'}}>
-                        <SearchBox/>
+                        <SearchBox searchMoviesOnQuery={this.searchMoviesOnQuery}/>
                     </Card>
                 </div>
                 <div className=" row">
