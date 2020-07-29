@@ -41,7 +41,7 @@ class MyMoviesPage extends Component {
         }
         return (
             <React.Fragment>
-                {movieList.map(imdbMovieId => {
+                {movieList && movieList.map(imdbMovieId => {
                     return (<MovieCard movieId={imdbMovieId} currentList={'mymovies'} className="col"
                                        updateLists={this.updateLists}/>)
                 })}
@@ -58,7 +58,6 @@ class MyMoviesPage extends Component {
                 </div>
             )
         }
-        const {movieList} = this.state
         return (
             <div className="p-2 m-2 row">
                 {this.renderMyMovies()}

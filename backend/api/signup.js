@@ -12,11 +12,11 @@ route.post('/', async (req, res) => {
     const arr = await users.find(query).toArray()
     console.log(arr)
     if (arr.length > 0) {
-        res.send("Username already taken")
+        res.send({msg:"Username already taken"})
     } else {
         const result = await users.insertOne(req.body)
         console.log(result)
-        res.send("Success")
+        res.send({msg:"Success"})
     }
 })
 

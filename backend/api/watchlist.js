@@ -14,9 +14,12 @@ route.post('/', async (req, res) => {
     const watchlist = db.collection('watchlist')
     const arr = await watchlist.find(query).toArray()
     console.log("arr = ", arr)
-    // console.log(arr[0])
-    // res.send({msg: 'ok'})
-    res.send({data: arr[0]})
+    if (arr.length >= 1) {
+        res.send({data: arr[0]})
+    } else {
+        const temp = [{movies: []}]
+        res.send({data: temp})
+    }
 })
 
 exports = module.exports = route

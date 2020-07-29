@@ -8,6 +8,7 @@ import MyMoviesPage from "./Components/MyMoviesPage";
 import WatchlistPage from "./Components/WatchlistPage";
 import MoviePage from "./Components/MoviePage";
 import AboutPage from "./Components/AboutPage";
+import SignUpPage from "./Components/SignUpPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class App extends React.Component {
         }
     }
 
-    loginUserAPI = async (username, password,callbackFromLoginPage) => {
+    loginUserAPI = async (username, password, callbackFromLoginPage) => {
         const request = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -61,7 +62,6 @@ class App extends React.Component {
                 })
                 this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
                 callbackFromLoginPage()
-
             }
         }
     }
@@ -77,8 +77,8 @@ class App extends React.Component {
         console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log(data)
-            const movieNames = data.data.movieNames
+            console.log("new user data = ", data)
+            const movieNames = data.data.movieNames || []
             console.log(movieNames)
             this.setState({
                 movieList: movieNames,
@@ -100,13 +100,13 @@ class App extends React.Component {
         console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log(data)
-            const watch = data.data.watch
-            console.log(watch)
-            this.setState({
-                watchMovies: watch,
-            })
-            console.log('Fetched watchlist', watch)
+            console.log("new user watch= ", data)
+            // const watch = data.data.watch
+            // console.log(watch)
+            // this.setState({
+            //     watchMovies: watch,
+            // })
+            // console.log('Fetched watchlist', watch)
         } else {
             console.log("Could not fetch watchlist")
         }
@@ -171,6 +171,14 @@ class App extends React.Component {
         }
     }
 
+    logoutUser = () => {
+        this.setState({
+            currentUser: '',
+            movieList: [],
+            watchMovies: []
+        })
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -178,7 +186,7 @@ class App extends React.Component {
                 <div className="App">
                     <div className="row">
                         <div className="col-2 p-0">
-                            <NavBar currentUser={this.state.currentUser}/>
+                            <NavBar currentUser={this.state.currentUser} logoutUser={this.logoutUser}/>
                         </div>
                         <div className="col p-0" id="main">
                             <Route exact path='/' component={BrowsePage}>
@@ -199,6 +207,9 @@ class App extends React.Component {
                                            updateLists={this.updateLists} match={match}/>)}>
                             </Route>
                             <Route exact path='/about' component={AboutPage}/>
+                            <Route exact path='/signup' component={SignUpPage}>
+                                <SignUpPage loginUserAPI={this.loginUserAPI}/>
+                            </Route>
                         </div>
                     </div>
 

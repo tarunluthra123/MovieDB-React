@@ -23,10 +23,7 @@ class NavBar extends Component {
             )
         } else {
             return (
-                <div className="p-1 m-1">
-                    <button onClick={() => this.redirectToLink('/login')}>Login
-                    </button>
-                </div>
+                <p className={"btn"} onClick={() => this.redirectToLink('/login')}>Login</p>
             )
         }
     }
@@ -35,15 +32,22 @@ class NavBar extends Component {
         this.props.history.push(link)
     }
 
+    logoutUser = () => {
+        this.props.logoutUser()
+        this.props.history.push('/')
+    }
+
     render() {
         return (
             <div id="mySidenav" className="sidenav">
                 {this.renderUserBox()}
-                <p onClick={() => this.redirectToLink('/')}>Browse</p>
-                <p onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
-                <p onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
-                <p onClick={() => this.redirectToLink('/about')}>About</p>
-                <p onClick={() => this.redirectToLink('/logout')}>Log out</p>
+                <p className={"btn"} onClick={() => this.redirectToLink('/')}>Browse</p>
+                <p className={"btn"} onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
+                <p className={"btn"} onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
+                <p className={"btn"} onClick={() => this.redirectToLink('/about')}>About</p>
+                {this.props.currentUser !== '' && (
+                    <p className={"btn"} onClick={this.logoutUser}>Log out</p>
+                )}
                 <br/><br/><br/>
                 Info from TMDB
             </div>
