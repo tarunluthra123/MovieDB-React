@@ -41,10 +41,17 @@ class MyMoviesPage extends Component {
         }
         return (
             <React.Fragment>
-                {movieList && movieList.map(imdbMovieId => {
-                    return (<MovieCard movieId={imdbMovieId} currentList={'mymovies'} className="col"
-                                       updateLists={this.updateLists}/>)
+                {movieList && movieList.length > 0 && movieList.map(movieId => {
+                    return (<MovieCard movieId={movieId} currentList={'mymovies'} className="col"
+                                       updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
                 })}
+                {movieList && movieList.length === 0 && (
+                    <p><h4>
+                        This list includes the movies that you have watched. You do not have any movies in this list
+                        currently.
+                        Go back to Browse Menu to add some movies here.
+                    </h4></p>
+                )}
             </React.Fragment>
         )
     }

@@ -191,20 +191,20 @@ class App extends React.Component {
                         <div className="col p-0" id="main">
                             <Route exact path='/' component={BrowsePage}>
                                 <BrowsePage updateLists={this.updateLists} movieList={this.state.movieList}
-                                            watchMovies={this.state.watchMovies}/>
+                                            watchMovies={this.state.watchMovies} currentUser={this.state.currentUser}/>
                             </Route>
                             <Route exact path='/login' component={LoginPage}>
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists}/>
+                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists} currentUser={this.state.currentUser}/>
                             </Route>
                             <Route exact path='/watchlist' component={WatchlistPage}>
-                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}/>
+                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists} currentUser={this.state.currentUser}/>
                             </Route>
                             <Route exact path='/movie/:movieId' render={({match}) => (
                                 <MoviePage movieList={this.state.movieList} watchMovies={this.state.watchMovies}
-                                           updateLists={this.updateLists} match={match}/>)}>
+                                           updateLists={this.updateLists} match={match} currentUser={this.state.currentUser}/>)}>
                             </Route>
                             <Route exact path='/about' component={AboutPage}/>
                             <Route exact path='/signup' component={SignUpPage}>

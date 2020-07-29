@@ -42,8 +42,12 @@ class NavBar extends Component {
             <div id="mySidenav" className="sidenav">
                 {this.renderUserBox()}
                 <p className={"btn"} onClick={() => this.redirectToLink('/')}>Browse</p>
-                <p className={"btn"} onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
-                <p className={"btn"} onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
+                {this.props.currentUser !== '' && (
+                    <div>
+                        <p className={"btn"} onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
+                        <p className={"btn"} onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
+                    </div>
+                )}
                 <p className={"btn"} onClick={() => this.redirectToLink('/about')}>About</p>
                 {this.props.currentUser !== '' && (
                     <p className={"btn"} onClick={this.logoutUser}>Log out</p>

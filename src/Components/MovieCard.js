@@ -152,7 +152,7 @@ class MovieCard extends Component {
                         <Card.Text>
                             {!this.state.loading && movie && this.renderMovieDescription()}
                         </Card.Text>
-                        {this.renderButtonBox()}
+                        {this.props.currentUser && this.renderButtonBox()}
                     </Card.Body>
                 </Card>
             );

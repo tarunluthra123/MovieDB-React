@@ -39,10 +39,19 @@ class WatchlistPage extends Component {
                 <p> Loading...</p>
             )
         }
+        if (watchMovies.length === 0) {
+            return (
+                <p><h4>
+                    This list includes the movies that you wish to watch later. You do not have any movies currently in
+                    this list.
+                    Go back to Browse menu to add some movies to this list.
+                </h4></p>
+            )
+        }
         const cards = []
         for (const movieId of watchMovies) {
             cards.push(<MovieCard movieId={movieId} currentList={'watchlist'} className="col"
-                                  updateLists={this.updateLists}/>)
+                                  updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
         }
         console.log(cards)
         return cards
@@ -50,7 +59,6 @@ class WatchlistPage extends Component {
 
     render() {
         const watchMovies = this.state.watchMovies
-        const loading = this.state.loading
         console.log('in watchlist', watchMovies)
         return (
             <div className="p-2 m-2 row">

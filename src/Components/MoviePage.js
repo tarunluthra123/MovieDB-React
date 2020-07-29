@@ -156,13 +156,15 @@ class MoviePage extends Component {
                                     </a>
                                 </div>
                                 <div className="col">
-                                    {movie && this.renderMoveListOptions(movie.id)}
+                                    {movie && this.props.currentUser && this.renderMoveListOptions(movie.id)}
                                 </div>
                             </div>
                             <div className="row">
-                                <div className={"card card-body"}>
-                                    <h6><i>{movie && '"' + movie.tagline + '"'}</i></h6>
-                                </div>
+                                {movie && movie.tagline && (
+                                    <div className={"card card-body"}>
+                                        <h6><i>{'"' + movie.tagline + '"'}</i></h6>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="col p-2 m-2">

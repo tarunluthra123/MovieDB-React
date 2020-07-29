@@ -193,7 +193,7 @@ class BrowsePage extends Component {
                         <React.Fragment>
                             {browseMovies.map(imdbMovieId => {
                                 return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col"
-                                                   updateLists={this.updateLists}/>)
+                                                   updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
                             })}
                         </React.Fragment>
                     )}

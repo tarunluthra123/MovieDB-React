@@ -87,10 +87,10 @@ class SearchBox extends Component {
                         </button>
                     </div>
                 </div>
-
-                <div className="card card-body m-3 p-2">
+                OR
+                <div className="card card-body m-1">
                     <div className="row">
-                        <div className="col-8">
+                        <div className="col-9 row">
                             {this.renderGenreBoxes()}
                         </div>
                         <div className="col-3">
