@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import imdbLogo from '../imdb_logo.png'
+import imdbLogo from '../assets/imdb_logo.png'
 import {Button} from "react-bootstrap";
 
 class MoviePage extends Component {

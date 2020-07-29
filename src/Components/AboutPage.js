@@ -45,7 +45,7 @@ class AboutPage extends Component {
                         tarunluthra987@gmail.com
                     </a>
                     {/*<br/>*/}
-                    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <img src={GithubIcon} alt={"Github"} width={30}/>
                     <a href={"https://github.com/tarunluthra123"} target={"_blank"}>
                         tarunluthra123

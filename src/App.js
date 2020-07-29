@@ -13,7 +13,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: 'tarun',
+            currentUser: '',
             movieList: [],
             watchMovies: []
         }
@@ -22,7 +22,8 @@ class App extends React.Component {
 
     componentDidMount() {
         // this.fetchData()
-        this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
+        if (this.state.currentUser !== '')
+            this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
     }
 
     fetchData = async () => {
@@ -34,12 +35,12 @@ class App extends React.Component {
         }
     }
 
-    loginUserAPI = async (username, password) => {
+    loginUserAPI = async (username, password,callbackFromLoginPage) => {
         const request = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                name: username,
+                username: username,
                 password: password
             })
         }
@@ -58,7 +59,9 @@ class App extends React.Component {
                 this.setState({
                     currentUser: username
                 })
-                this.props.history.push('/')
+                this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
+                callbackFromLoginPage()
+
             }
         }
     }

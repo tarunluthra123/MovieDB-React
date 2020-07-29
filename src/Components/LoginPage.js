@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -12,11 +13,15 @@ class LoginPage extends Component {
         this.passwordInput = React.createRef()
     }
 
+    callbackFunctionForLogin = () => {
+        this.props.history.push('/')
+    }
+
     loginUser = (e) => {
         const target = e.target
         console.log("e = ", e)
         console.log(this.usernameInput.current.value, this.passwordInput.current.value)
-        this.props.loginUserAPI(this.usernameInput.current.value, this.passwordInput.current.value)
+        this.props.loginUserAPI(this.usernameInput.current.value, this.passwordInput.current.value, this.callbackFunctionForLogin)
     }
 
 
@@ -33,4 +38,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);
