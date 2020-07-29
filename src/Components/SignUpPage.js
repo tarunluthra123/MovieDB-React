@@ -10,7 +10,7 @@ class SignUpPage extends Component {
         this.passwordInput = React.createRef()
     }
 
-    signUpUser = async()=>{
+    signUpUser = async () => {
         const username = this.usernameInput.current.value
         const password = this.passwordInput.current.value
 
@@ -22,18 +22,17 @@ class SignUpPage extends Component {
                 password: password
             })
         }
-        const response = await fetch('/api/signup',request)
-        if(response.ok){
+        const response = await fetch('/api/signup', request)
+        if (response.ok) {
             const data = await response.json()
             const msg = data.msg
-            if(msg==='Success'){
-                this.props.loginUserAPI(username,password,()=>this.props.history.push('/'))
+            if (msg === 'Success') {
+                this.props.loginUserAPI(username, password, () => this.props.history.push('/'))
             } else {
                 alert("Username already taken up ... try again")
             }
         }
     }
-
 
 
     render() {
@@ -45,7 +44,7 @@ class SignUpPage extends Component {
                     <br/>
                     Password : <input type="password" name="pass" ref={this.passwordInput} placeholder={'Password'}/>
                     <br/>
-                    <button type="submit" className="btn btn-primary btn-lg" onClick={this.signUpUser}>Login</button>
+                    <button type="submit" className="btn btn-primary btn-lg" onClick={this.signUpUser}>Sign Up</button>
                 </div>
             </div>
         );
