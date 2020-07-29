@@ -9,18 +9,22 @@ route.post('/', async (req, res) => {
         username: req.body.username
     }
     console.log(query)
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
-    const movies = db.collection('movies')
-    const arr = await movies.find(query).toArray()
-    console.log("arr = ", arr)
-    // console.log(arr[0])
-    // res.send({msg: 'ok'})
-    if (arr.length >= 1) {
-        res.send({data: arr[0]})
-    } else {
-        const temp = [{movies: []}]
-        res.send({data: temp})
+    try {
+        const db = await MongoClient.connect(MONGO_URL + DB_NAME)
+        const movies = db.collection('movies')
+        const arr = await movies.find(query).toArray()
+        console.log("arr = ", arr)
+        // console.log(arr[0])
+        // res.send({msg: 'ok'})
+        if (arr.length >= 1) {
+            res.send({data: arr[0]})
+        } else {
+            const temp = [{movies: []}]
+            res.send({data: temp})
+        }
+    } catch (e) {
+        console.log(e)
+        res.send({msg: "Some error"})
     }
 })
 

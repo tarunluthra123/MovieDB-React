@@ -10,7 +10,7 @@
     "bootstrap": "^4.5.0",
     "express": "^4.17.1",
     "mongo": "^0.1.0",
-    "mongodb": "^3.5.9",
+    "mongodb": "^2.2.33",
     "nodemon": "^2.0.4",
     "radium": "^0.26.0",
     "react": "^16.13.1",

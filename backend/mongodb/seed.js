@@ -1,5 +1,4 @@
-const MONGO_URL = "mongodb://localhost:27017/"
-const DB_NAME = 'movie_project_db'
+const {DB_NAME, MONGO_URL} = require('../mongodb/connection')
 const MongoClient = require('mongodb').MongoClient
 
 let write = async () => {
@@ -27,4 +26,5 @@ let readUser = async () => {
     console.log(arr)
 }
 
-write().then(readUser)
+// write().then(readUser)
+readUser()

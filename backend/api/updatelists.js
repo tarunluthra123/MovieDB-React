@@ -4,8 +4,7 @@ const MongoClient = require('mongodb').MongoClient
 const route = require('express').Router()
 
 async function addToMyMovies(username, movieId) {
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
@@ -16,8 +15,8 @@ async function addToMyMovies(username, movieId) {
 }
 
 async function addToWatchlist(username, movieId) {
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
+
+    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
@@ -28,8 +27,7 @@ async function addToWatchlist(username, movieId) {
 }
 
 async function removeFromMyMovies(username, movieId) {
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
@@ -40,8 +38,7 @@ async function removeFromMyMovies(username, movieId) {
 }
 
 async function removeFromWatchlist(username, movieId) {
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
@@ -54,16 +51,20 @@ async function removeFromWatchlist(username, movieId) {
 route.post('/', async (req, res) => {
     const {username, movieId, removeFromList, addToList} = req.body
     let removeRes, addRes;
-    if (removeFromList === 'mymovies') {
-        removeRes = await removeFromMyMovies(username, movieId)
-    } else if (removeFromList === 'watchlist') {
-        removeRes = await removeFromWatchlist(username, movieId)
-    }
+    try {
+        if (removeFromList === 'mymovies') {
+            removeRes = await removeFromMyMovies(username, movieId)
+        } else if (removeFromList === 'watchlist') {
+            removeRes = await removeFromWatchlist(username, movieId)
+        }
 
-    if (addToList === 'mymovies') {
-        addRes = await addToMyMovies(username, movieId)
-    } else if (addToList === 'watchlist') {
-        addRes = await addToWatchlist(username, movieId)
+        if (addToList === 'mymovies') {
+            addRes = await addToMyMovies(username, movieId)
+        } else if (addToList === 'watchlist') {
+            addRes = await addToWatchlist(username, movieId)
+        }
+    } catch (err) {
+        console.log(err)
     }
 
     res.send({

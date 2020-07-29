@@ -9,8 +9,7 @@ route.post('/', async (req, res) => {
         username: req.body.username
     }
     console.log(query)
-    const client = await MongoClient.connect(MONGO_URL)
-    const db = client.db(DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
     const watchlist = db.collection('watchlist')
     const arr = await watchlist.find(query).toArray()
     console.log("arr = ", arr)
