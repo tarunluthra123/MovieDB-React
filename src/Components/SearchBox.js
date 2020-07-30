@@ -75,14 +75,14 @@ class SearchBox extends Component {
 
     render() {
         return (
-            <div className="container card card-body">
+            <div className="card card-body">
                 <div className="row">
-                    <div className="col">
-                        <input placeholder="Search By Title" className="form-group" ref={this.searchBoxInput}
-                               size={45}/>
+                    <div className="col-7 form-group">
+                        <input placeholder="Search By Title" className="form-control" ref={this.searchBoxInput}
+                               size=""/>
                     </div>
                     <div className="col">
-                        <button className="btn btn-lg btn-primary" onClick={this.searchMoviesOnQuery}>
+                        <button className="btn btn-block btn-primary" onClick={this.searchMoviesOnQuery}>
                             Search by Title
                         </button>
                     </div>

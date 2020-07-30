@@ -182,21 +182,24 @@ class BrowsePage extends Component {
         return (
             <div className="">
                 <div className="container">
-                    <Card style={{width: '50rem'}}>
+                    <Card className="browsePageSearchBox">
                         <SearchBox searchMoviesOnQuery={this.searchMoviesOnQuery}
                                    searchMoviesByGenreIDs={this.searchMoviesByGenreIDs}/>
                     </Card>
                 </div>
-                <div className=" row">
-                    {loading && (<p>Loading...</p>)}
-                    {!loading && browseMovies && (
-                        <React.Fragment>
-                            {browseMovies.map(imdbMovieId => {
-                                return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col"
-                                                   updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
-                            })}
-                        </React.Fragment>
-                    )}
+                <div className="container-fluid">
+                    <div className="row">
+                        {loading && (<p>Loading...</p>)}
+                        {!loading && browseMovies && (
+                            <React.Fragment>
+                                {browseMovies.map(imdbMovieId => {
+                                    return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col"
+                                                       updateLists={this.updateLists}
+                                                       currentUser={this.props.currentUser}/>)
+                                })}
+                            </React.Fragment>
+                        )}
+                    </div>
                 </div>
             </div>
         );

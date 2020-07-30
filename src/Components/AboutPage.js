@@ -33,7 +33,7 @@ class AboutPage extends Component {
                     <a href="https://www.themoviedb.org/" target={"_blank"}>
                         <img
                             src={"https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_1-8ba2ac31f354005783fab473602c34c3f4fd207150182061e425d366e4f34596.svg"}
-                            alt={"TMDb Logo"} width={500}/>
+                            alt={"TMDb Logo"} className="movieDbOrgLogo" width={500}/>
                     </a>
                 </p>
                 <br/>
@@ -44,14 +44,14 @@ class AboutPage extends Component {
                     <a href={"mailto:tarunluthra987@gmail.com"} target={"_blank"}>
                         tarunluthra987@gmail.com
                     </a>
-                    {/*<br/>*/}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br/>
+                    {/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
                     <img src={GithubIcon} alt={"Github"} width={30}/>
                     <a href={"https://github.com/tarunluthra123"} target={"_blank"}>
                         tarunluthra123
                     </a>
-                    {/*<br/>*/}
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <br/>
+                    {/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
                     <img src={LinkedInIcon} alt={"LinkedIn"} width={28}/>
                     <a href={"https://www.linkedin.com/in/tarunluthra123/"} target={"_blank"}>
                         tarunluthra123

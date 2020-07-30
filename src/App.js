@@ -185,10 +185,11 @@ class App extends React.Component {
             <Router>
                 <div className="App">
                     <div className="row">
-                        <div className="col-2 p-0">
+                        <div className="row col-lg-2 col-md-2 col-sm-3 col-3 p-2 m-1">
                             <NavBar currentUser={this.state.currentUser} logoutUser={this.logoutUser}/>
                         </div>
-                        <div className="col p-0" id="main">
+                        {/*<div className="col-lg-1 col-md-1 col-sm-1 col-1"/>*/}
+                        <div className="col-lg col-md col-sm col p-2 m-1" id="main">
                             <Route exact path='/' component={BrowsePage}>
                                 <BrowsePage updateLists={this.updateLists} movieList={this.state.movieList}
                                             watchMovies={this.state.watchMovies} currentUser={this.state.currentUser}/>
@@ -197,14 +198,17 @@ class App extends React.Component {
                                 <LoginPage loginUserAPI={this.loginUserAPI}/>
                             </Route>
                             <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists} currentUser={this.state.currentUser}/>
+                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists}
+                                              currentUser={this.state.currentUser}/>
                             </Route>
                             <Route exact path='/watchlist' component={WatchlistPage}>
-                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists} currentUser={this.state.currentUser}/>
+                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}
+                                               currentUser={this.state.currentUser}/>
                             </Route>
                             <Route exact path='/movie/:movieId' render={({match}) => (
                                 <MoviePage movieList={this.state.movieList} watchMovies={this.state.watchMovies}
-                                           updateLists={this.updateLists} match={match} currentUser={this.state.currentUser}/>)}>
+                                           updateLists={this.updateLists} match={match}
+                                           currentUser={this.state.currentUser}/>)}>
                             </Route>
                             <Route exact path='/about' component={AboutPage}/>
                             <Route exact path='/signup' component={SignUpPage}>

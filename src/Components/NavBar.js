@@ -39,7 +39,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <div id="mySidenav" className="sidenav">
+            <div className="sidenav" id="mySidenav">
                 {this.renderUserBox()}
                 <p className={"btn"} onClick={() => this.redirectToLink('/')}>Browse</p>
                 {this.props.currentUser !== '' && (

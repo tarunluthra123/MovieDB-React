@@ -51,7 +51,8 @@ class MoviePage extends Component {
         const badges = []
         for (const obj of genres) {
             const name = obj.name
-            badges.push(<span className="badge badge-secondary btn-outline-dark m-2 p-2"><h4>{name}</h4></span>)
+            badges.push(<span className="badge badge-secondary btn-outline-dark m-2 p-2"><h4
+                className="genreBadge">{name}</h4></span>)
         }
         return badges
     }
@@ -131,18 +132,19 @@ class MoviePage extends Component {
         return (
             <div className="row">
                 <section style={sectionStyle} className="moviePageBackgroundImage">
+
+                    <h1 align="center" className="strokeme">
+                        {movie && movie.original_title}
+                    </h1>
                     <div className="row m-5">
-                        <div className="col-8 p-2 m-2">
-                            <h1 align="center" className="display-2 strokeme">
-                                {movie && movie.original_title}
-                            </h1>
+                        <div className="col-lg-8 p-2 m-2">
                             <div className="row">
                                 <div className="col">
                                     {movie && this.renderGenres()}
                                 </div>
-                                <div className="col-3 moviePageReleaseDate">
+                                <div className="col-3">
                                 <span className="btn-lg btn btn-light btn-outline-dark m-2 p-2">
-                                    <h2>{movie && movie.release_date}</h2>
+                                    <h3 className="moviePageReleaseDate">{movie && movie.release_date}</h3>
                                 </span>
                                 </div>
                             </div>
@@ -152,7 +154,7 @@ class MoviePage extends Component {
                             <div className="row">
                                 <div className="col-3">
                                     <a href={`https:/imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
-                                        <img src={imdbLogo} height={"100"} alt={"IMDB"}/>
+                                        <img src={imdbLogo} className="moviePageImdbLogo" alt={"IMDB"}/>
                                     </a>
                                 </div>
                                 <div className="col">
@@ -167,9 +169,9 @@ class MoviePage extends Component {
                                 )}
                             </div>
                         </div>
-                        <div className="col p-2 m-2">
+                        <div className="col-lg p-2 m-2">
                             <img src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
-                                 alt={`${movie && movie.original_title}`} height="500"/>
+                                 alt={`${movie && movie.original_title}`} className="moviePagePoster" height="500"/>
                         </div>
                     </div>
                 </section>
