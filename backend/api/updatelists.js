@@ -1,10 +1,10 @@
-const {DB_NAME, MONGO_URL} = require('../mongodb/connection')
+const {MONGO_URL} = require('../mongodb/connection')
 const MongoClient = require('mongodb').MongoClient
 
 const route = require('express').Router()
 
 async function addToMyMovies(username, movieId) {
-    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL)
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
@@ -16,7 +16,7 @@ async function addToMyMovies(username, movieId) {
 
 async function addToWatchlist(username, movieId) {
 
-    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL)
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
@@ -27,7 +27,7 @@ async function addToWatchlist(username, movieId) {
 }
 
 async function removeFromMyMovies(username, movieId) {
-    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL)
     const movies = db.collection('movies')
     let res = await movies.updateOne(
         {username: username},
@@ -38,7 +38,7 @@ async function removeFromMyMovies(username, movieId) {
 }
 
 async function removeFromWatchlist(username, movieId) {
-    const db = await MongoClient.connect(MONGO_URL + DB_NAME)
+    const db = await MongoClient.connect(MONGO_URL)
     const movies = db.collection('watchlist')
     let res = await movies.updateOne(
         {username: username},
