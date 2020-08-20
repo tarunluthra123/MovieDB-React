@@ -153,7 +153,7 @@ class MoviePage extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-3">
-                                    <a href={`https:/imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
+                                    <a href={`https://www.imdb.com/title/${movie && movie.imdb_id}`} target={'_blank'}>
                                         <img src={imdbLogo} className="moviePageImdbLogo" alt={"IMDB"}/>
                                     </a>
                                 </div>

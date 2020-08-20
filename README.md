@@ -1,3 +1,22 @@
+# Movie DB Project - React
+This is a practice project made using React JS (for frontend), ExpressJS Backend with MongoDB.
+This project aims to create Movie Database searching and filtering using title or genres interface.
+Users can sort movies into lists as per their wish. 
+The backend stores user information with their lists.
+<br>
+All movie related information is fetched from a third party API - <a href="https://www.themoviedb.org" target="_blank">themoviedb.org</a>.
+<br>
+<br>
+The project can be viewed <a href="https://movie-db-reactjs.herokuapp.com/" target="_blank">here</a>.
+
+# Screenshots
+<img src="./Screenshots/BrowsePage.png"><br>
+<img src="./Screenshots/LoginPage.png"><br>
+<img src="./Screenshots/SignUpPage.png"><br>
+<img src="./Screenshots/MyMoviesPage.png"><br>
+<img src="./Screenshots/WatchlistPage.png"><br>
+<br>
+## React Documentation 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
