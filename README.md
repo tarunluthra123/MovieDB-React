@@ -25,6 +25,7 @@ The project can be viewed <a href="https://movie-db-reactjs.herokuapp.com/" targ
 <img src="./Screenshots/SignUpPage.png"><br>
 <img src="./Screenshots/MyMoviesPage.png"><br>
 <img src="./Screenshots/WatchlistPage.png"><br>
+<img src="./Screenshots/MoviePreview.png">
 
 ## Setting up the project
 
