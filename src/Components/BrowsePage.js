@@ -1,72 +1,61 @@
-import React, {Component} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import MovieCard from "./MovieCard";
 import SearchBox from "./SearchBox";
-import {Card} from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import {ListContext} from '../context/ListContext'
 
-class BrowsePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            browseMovies: [],
-            currentPage: 1,
-            loading: false,
-            searching: false,
-            searchQueryText: '',
-            searchGenre: false,
-            genreList: []
-        }
-    }
+const BrowsePage = (props) => {
+    const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
+    const [browseMovies, setBrowseMovies] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [loading, setLoading] = useState(false);
+    const [searching, setSearching] = useState(false);
+    const [searchQueryText, setSearchQueryText] = useState('');
+    const [searchGenre, setSearchGenre] = useState(false);
+    const [genreList, setGenreList] = useState([]);
+    const API_KEY = process.env.REACT_APP_API_KEY;
 
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        renderBrowseMovies()
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
-    componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll)
-        this.renderBrowseMovies()
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll);
-    }
-
-    handleScroll = () => {
+    const handleScroll = () => {
         const currentScroll = window.scrollY
         const maxScroll = document.body.offsetHeight - window.innerHeight;
-        const {currentPage} = this.state;
 
         // console.log(currentScroll, maxScroll)
 
         if (maxScroll - currentScroll <= 150) {
-            this.setState({
-                currentPage: this.state.currentPage + 1
-            })
-            if (this.state.searching) {
-                this.searchMoviesOnQuery(this.state.searchQueryText)
+            setCurrentPage(currentPage+1)
+            if (searching) {
+                searchMoviesOnQuery(searchQueryText)
             } else {
-                this.renderBrowseMovies()
+                renderBrowseMovies()
             }
         }
     }
 
-    searchMoviesOnQuery = async (searchQueryText) => {
-        if (searchQueryText === '') {
-            this.setState({
-                searching: false,
-                currentPage: 1,
-                browseMovies: []
-            })
-            this.renderBrowseMovies()
+    const searchMoviesOnQuery = async (queryText) => {
+        if (queryText === '') {
+            setSearching(false)
+            setCurrentPage(1)
+            setBrowseMovies([])
+            renderBrowseMovies()
             return
-        } else if (searchQueryText === this.state.searchQueryText) {
+        } else if (queryText === searchQueryText) {
             //Load next page
         } else {
             //New search
-            this.setState({
-                searchQueryText: searchQueryText,
-                currentPage: 1,
-                searching: true,
-                browseMovies: []
-            })
+            setSearchQueryText(queryText)
+            setCurrentPage(1)
+            setSearching(true)
+            setBrowseMovies([])
         }
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&query=${searchQueryText}&page=${this.state.currentPage}&include_adult=false`
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQueryText}&page=${currentPage}&include_adult=false`
         const response = await fetch(url)
         const browseMovies = []
         if (response.ok) {
@@ -74,7 +63,7 @@ class BrowsePage extends Component {
             const results = data['results']
             results.forEach(result => {
                 const movieId = result['id']
-                if (this.props.movieList.includes(movieId) || this.props.watchMovies.includes(movieId)) {
+                if (movieList.includes(movieId) || watchMovies.includes(movieId)) {
                     return
                 }
                 browseMovies.push(movieId)
@@ -82,128 +71,104 @@ class BrowsePage extends Component {
         } else {
             console.log('No browse movies')
         }
-        this.setState({
-            browseMovies: [...this.state.browseMovies, ...browseMovies]
-        })
+        setBrowseMovies([...browseMovies, ...browseMovies])
     }
 
-    renderBrowseMovies = async () => {
-        let browseMovies = []
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${this.state.currentPage}`
+    const renderBrowseMovies = async () => {
+        let browseMoviesList = []
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${currentPage}`
         const response = await fetch(url)
         if (response.ok) {
             const data = await response.json()
             const results = data['results']
             results.forEach(result => {
                 const movieId = result['id']
-                if (this.props.movieList.includes(movieId) || this.props.watchMovies.includes(movieId)) {
+                if (movieList.includes(movieId) || watchMovies.includes(movieId)) {
                     return
                 }
-                browseMovies.push(movieId)
+                browseMoviesList.push(movieId)
             })
         } else {
             console.log('No browse movies')
         }
-        this.setState({
-            browseMovies: [...this.state.browseMovies, ...browseMovies]
-        })
+        setBrowseMovies([...browseMovies,...browseMoviesList])
     }
 
 
-    updateLists = (movieId, currentList, addToList) => {
-        this.setState({
-            loading: true
-        }, async () => {
-            await this.props.updateLists(movieId, currentList, addToList)
-            let browseMovies = this.state.browseMovies
-            let index = browseMovies.indexOf(movieId)
-            if (index > -1) {
-                browseMovies.splice(index, 1)
-                this.setState({
-                    browseMovies: browseMovies
-                })
-            }
-            this.setState({
-                loading: false,
-                currentPage: 1
-            })
-        })
-
+    const updateLists = async (movieId, currentList, addToList) => {
+        setLoading(true)
+        await this.props.updateLists(movieId, currentList, addToList)
+        let index = browseMovies.indexOf(movieId)
+        if (index > -1) {
+            browseMovies.splice(index, 1)
+            setBrowseMovies(browseMovies)
+        }
+        setLoading(false)
+        setCurrentPage(1)
     }
 
-    searchMoviesByGenreIDs = async (genreList) => {
-        if (genreList.length === 0) {
-            this.setState({
-                searching: false,
-                searchGenre: false,
-                currentPage: 1,
-                browseMovies: []
-            })
-            this.renderBrowseMovies()
+    const searchMoviesByGenreIDs = async (genreListQuery) => {
+        if (genreListQuery.length === 0) {
+            setSearching(false)
+            setSearchGenre(false)
+            setCurrentPage(1)
+            setBrowseMovies([])
+            renderBrowseMovies()
             return
-        } else if (genreList === this.state.genreList) {
+        } else if (genreListQuery === genreList) {
             //Load next page
         } else {
             //New search
-            this.setState({
-                genreList: genreList,
-                currentPage: 1,
-                searchGenre: true,
-                browseMovies: []
-            })
+            setGenreList(genreListQuery)
+            setCurrentPage(1)
+            setSearchGenre(true)
+            setBrowseMovies([])
         }
-        let url = `https://api.themoviedb.org/3/discover/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=`
+        let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=`
         url += genreList[0]
         for (let i = 1; i < genreList.length; i++) {
             url += "%2C" + genreList[1]
         }
         const response = await fetch(url)
-        const browseMovies = []
+        const newBrowseMovies = []
         if (response.ok) {
             const data = await response.json()
             const results = data['results']
             results.forEach(result => {
                 const movieId = result['id']
-                if (this.props.movieList.includes(movieId) || this.props.watchMovies.includes(movieId)) {
+                if (movieList.includes(movieId) || watchMovies.includes(movieId)) {
                     return
                 }
-                browseMovies.push(movieId)
+                newBrowseMovies.push(movieId)
             })
         } else {
             console.log('No browse movies')
         }
-        this.setState({
-            browseMovies: [...this.state.browseMovies, ...browseMovies]
-        })
+        setBrowseMovies([...browseMovies,...newBrowseMovies])
     }
 
-    render() {
-        const {loading, browseMovies} = this.state
-        return (
-            <div className="">
-                <div className="container">
-                    <Card className="browsePageSearchBox">
-                        <SearchBox searchMoviesOnQuery={this.searchMoviesOnQuery}
-                                   searchMoviesByGenreIDs={this.searchMoviesByGenreIDs}/>
-                    </Card>
-                </div>
-                <div className="container-fluid">
-                    <div className="row">
-                        {loading && (<p>Loading...</p>)}
-                        {!loading && browseMovies && (
-                            <React.Fragment>
-                                {browseMovies.map(imdbMovieId => {
-                                    return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col"
-                                                       updateLists={this.updateLists}
-                                                       currentUser={this.props.currentUser}/>)
-                                })}
-                            </React.Fragment>
-                        )}
-                    </div>
+    return (
+        <div className="">
+            <div className="container">
+                <Card className="browsePageSearchBox">
+                    <SearchBox searchMoviesOnQuery={searchMoviesOnQuery}
+                                searchMoviesByGenreIDs={searchMoviesByGenreIDs}/>
+                </Card>
+            </div>
+            <div className="container-fluid">
+                <div className="row">
+                    {loading && (<p>Loading...</p>)}
+                    {!loading && browseMovies && (
+                        <React.Fragment>
+                            {browseMovies.map(imdbMovieId => {
+                                return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col" updateLists={updateLists} />)
+                            })}
+                        </React.Fragment>
+                    )}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default BrowsePage;

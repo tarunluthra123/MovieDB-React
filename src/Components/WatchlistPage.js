@@ -1,39 +1,18 @@
-import React, {Component} from 'react';
+import React, {useContext,useState} from 'react';
 import MovieCard from "./MovieCard";
+import {ListContext} from '../context/ListContext'
 
-class WatchlistPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            watchMovies: this.props.watchMovies,
-            loading: false
-        }
-        console.log('watchlist page')
-    }
+const WatchlistPage = (props) => {
+    const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
+    const [loading,setLoading] = useState(false)
 
-    updateLists = (movieId, currentList, addToList) => {
-        this.setState({
-            loading: true
-        }, async () => {
-            await this.props.updateLists(movieId, currentList, addToList)
-            const watchMovies = this.state.watchMovies
-            let index = watchMovies.indexOf(movieId)
-            if (index > -1) {
-                watchMovies.splice(index, 1)
-                this.setState({
-                    watchMovies: watchMovies
-                })
-            }
-            this.setState({
-                loading: false
-            })
-        })
-
+    const updateLists = async (movieId, currentList, addToList) => {
+        setLoading(true)
+        await props.updateLists(movieId, currentList, addToList)
     }
 
 
-    renderWatchListMovies = () => {
-        const {loading, watchMovies} = this.state
+    const renderWatchListMovies = () => {
         if (loading) {
             return (
                 <p> Loading...</p>
@@ -51,21 +30,17 @@ class WatchlistPage extends Component {
         const cards = []
         for (const movieId of watchMovies) {
             cards.push(<MovieCard movieId={movieId} currentList={'watchlist'} className="col"
-                                  updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
+                                  updateLists={updateLists} />)
         }
         console.log(cards)
         return cards
     }
 
-    render() {
-        const watchMovies = this.state.watchMovies
-        console.log('in watchlist', watchMovies)
-        return (
-            <div className="p-2 m-2 row">
-                {this.renderWatchListMovies()}
-            </div>
-        );
-    }
+    return (
+        <div className="p-2 m-2 row">
+            {renderWatchListMovies()}
+        </div>
+    );
 }
 
 export default WatchlistPage;

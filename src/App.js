@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect ,useState}from 'react';
 import './App.css';
 import NavBar from "./Components/NavBar";
 import BrowsePage from "./Components/BrowsePage";
@@ -9,25 +9,29 @@ import WatchlistPage from "./Components/WatchlistPage";
 import MoviePage from "./Components/MoviePage";
 import AboutPage from "./Components/AboutPage";
 import SignUpPage from "./Components/SignUpPage";
+import { UserContext } from './context/UserContext'
+import { ListContext } from './context/ListContext' 
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentUser: '',
-            movieList: [],
-            watchMovies: []
+const App = (props) => {
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
+    const [userLoggingIn,setUserLoggingIn] = useState(false)
+
+    useEffect(() => {
+        if (currentUser !== '')
+            fetchData().then(fetchUserMovies).then(fetchUserWatchList)
+    }, [])
+    
+    useEffect(() => {
+        if (userLoggingIn) {
+            if (currentUser != '') {
+                setUserLoggingIn(false)
+                fetchData().then(fetchUserMovies).then(fetchUserWatchList)
+            }
         }
-        console.log('props = ', props)
-    }
+    })
 
-    componentDidMount() {
-        // this.fetchData()
-        if (this.state.currentUser !== '')
-            this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
-    }
-
-    fetchData = async () => {
+    const fetchData = async () => {
         const res = await fetch('/ping')
         if (res.ok) {
             console.log(res)
@@ -36,7 +40,7 @@ class App extends React.Component {
         }
     }
 
-    loginUserAPI = async (username, password, callbackFromLoginPage) => {
+    const loginUserAPI = async (username, password, callbackFromLoginPage) => {
         const request = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -52,109 +56,81 @@ class App extends React.Component {
             // console.log("data = ", data)
             const msg = data.msg
             if (msg === 'incorrect') {
-                this.setState({
-                    invalidLoginModal: true
-                })
                 alert("Incorrect username or password")
             } else {
-                this.setState({
-                    currentUser: username
-                })
-                this.fetchData().then(this.fetchUserMovies).then(this.fetchUserWatchList)
+                console.log("abracadbra")
+                setUserLoggingIn(true)
+                setCurrentUser(username)
                 callbackFromLoginPage()
             }
         }
     }
 
-    fetchUserMovies = async () => {
+    const fetchUserMovies = async () => {
         const response = await fetch('/api/mymovies', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: this.state.currentUser
+                username: currentUser
             })
         })
-        console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log("new user data = ", data)
             const movieNames = data.data.movieNames || []
-            console.log(movieNames)
-            this.setState({
-                movieList: movieNames,
-            })
+            setMovieList(movieNames)
         } else {
             console.log("Could not fetch user movies")
         }
     }
 
 
-    fetchUserWatchList = async () => {
+    const fetchUserWatchList = async () => {
         const response = await fetch('/api/watchlist', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: this.state.currentUser
+                username: currentUser
             })
         })
-        console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log("new user watch= ", data)
-            // const watch = data.data.watch
-            // console.log(watch)
-            // this.setState({
-            //     watchMovies: watch,
-            // })
-            // console.log('Fetched watchlist', watch)
+            const newWatchList = data.data.watch || []
+            setWatchMovies(newWatchList)
         } else {
             console.log("Could not fetch watchlist")
         }
     }
 
-    updateLists = async (movieId, removeFromList, addToList) => {
+    const updateLists = async (movieId, removeFromList, addToList) => {
         console.log('Move ' + movieId + ' from ' + removeFromList + ' addTo ' + addToList)
         if (removeFromList === 'mymovies') {
-            let movieList = this.state.movieList
             const index = movieList.indexOf(movieId);
             console.log('index = ', index)
             if (index > -1) {
                 movieList.splice(index, 1);
-                this.setState({
-                    movieList: movieList
-                })
+                setMovieList(movieList)
             }
         } else if (removeFromList === 'watchlist') {
-            let watchlist = this.state.watchMovies
+            let watchlist = watchMovies
             const index = watchlist.indexOf(movieId)
             console.log('index = ', index)
             if (index > -1) {
                 watchlist.splice(index, 1)
-                this.setState({
-                    watchMovies: watchlist
-                })
+                setWatchMovies(watchlist)
             }
         }
 
         if (addToList === 'mymovies') {
-            let movieList = this.state.movieList
-            movieList.push(movieId)
-            this.setState({
-                movieList: movieList
-            })
+            setMovieList([...movieList,movieId])
         } else if (addToList === 'watchlist') {
-            let watchMovies = this.state.watchMovies
-            watchMovies.push(movieId)
-            this.setState({
-                watchMovies: watchMovies
-            })
+            setWatchMovies([...watchMovies,movieId])
         }
 
         const response = await fetch('/api/updateList', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: this.state.currentUser,
+                username: currentUser,
                 removeFromList: removeFromList,
                 addToList: addToList,
                 movieId: movieId
@@ -171,56 +147,48 @@ class App extends React.Component {
         }
     }
 
-    logoutUser = () => {
-        this.setState({
-            currentUser: '',
-            movieList: [],
-            watchMovies: []
-        })
+    const logoutUser = () => {
+        setMovieList([])
+        setWatchMovies([])
+        setCurrentUser('')
     }
 
-    render() {
-        console.log(this.state)
-        return (
-            <Router>
-                <div className="App">
-                    <div className="row">
-                        <div className="row col-lg-2 col-md-2 col-sm-3 col-3 p-2 m-1">
-                            <NavBar currentUser={this.state.currentUser} logoutUser={this.logoutUser}/>
-                        </div>
-                        {/*<div className="col-lg-1 col-md-1 col-sm-1 col-1"/>*/}
-                        <div className="col-lg col-md col-sm col p-2 m-1" id="main">
-                            <Route exact path='/' component={BrowsePage}>
-                                <BrowsePage updateLists={this.updateLists} movieList={this.state.movieList}
-                                            watchMovies={this.state.watchMovies} currentUser={this.state.currentUser}/>
-                            </Route>
-                            <Route exact path='/login' component={LoginPage}>
-                                <LoginPage loginUserAPI={this.loginUserAPI}/>
-                            </Route>
-                            <Route exact path='/mymovies' component={MyMoviesPage}>
-                                <MyMoviesPage movieList={this.state.movieList} updateLists={this.updateLists}
-                                              currentUser={this.state.currentUser}/>
-                            </Route>
-                            <Route exact path='/watchlist' component={WatchlistPage}>
-                                <WatchlistPage watchMovies={this.state.watchMovies} updateLists={this.updateLists}
-                                               currentUser={this.state.currentUser}/>
-                            </Route>
-                            <Route exact path='/movie/:movieId' render={({match}) => (
-                                <MoviePage movieList={this.state.movieList} watchMovies={this.state.watchMovies}
-                                           updateLists={this.updateLists} match={match}
-                                           currentUser={this.state.currentUser}/>)}>
-                            </Route>
-                            <Route exact path='/about' component={AboutPage}/>
-                            <Route exact path='/signup' component={SignUpPage}>
-                                <SignUpPage loginUserAPI={this.loginUserAPI}/>
-                            </Route>
-                        </div>
+    return (
+        <Router>
+            <div className="App">
+                <div className="row">
+                    <div className="row col-lg-2 col-md-2 col-sm-3 col-3 p-2 m-1">
+                        <NavBar logoutUser={logoutUser}/>
                     </div>
+                    {/*<div className="col-lg-1 col-md-1 col-sm-1 col-1"/>*/}
+                    <div className="col-lg col-md col-sm col p-2 m-1" id="main">
+                        <Route exact path='/' component={BrowsePage}>
+                            <BrowsePage updateLists={updateLists} />
+                        </Route>
+                        <Route exact path='/login' component={LoginPage}>
+                            <LoginPage loginUserAPI={loginUserAPI}/>
+                        </Route>
+                        <Route exact path='/mymovies' component={MyMoviesPage}>
+                            <MyMoviesPage updateLists={updateLists}
+                                            />
+                        </Route>
+                        <Route exact path='/watchlist' component={WatchlistPage}>
+                            <WatchlistPage updateLists={updateLists}
+                                            />
+                        </Route>
+                        <Route exact path='/movie/:movieId' render={({match}) => (
+                            <MoviePage updateLists={updateLists} match={match} />)}>
+                        </Route>
+                        <Route exact path='/about' component={AboutPage}/>
+                        <Route exact path='/signup' component={SignUpPage}>
+                            <SignUpPage loginUserAPI={loginUserAPI}/>
+                        </Route>
+                    </div>
+                </div>
 
                 </div>
-            </Router>
-        );
-    }
+        </Router>
+    );
 }
 
 export default withRouter(App);

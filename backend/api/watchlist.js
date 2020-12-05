@@ -8,7 +8,7 @@ route.post('/', async (req, res) => {
     let query = {
         username: req.body.username
     }
-    console.log(query)
+    console.log({ query })
     const db = await MongoClient.connect(MONGO_URL)
     const watchlist = db.collection('watchlist')
     const arr = await watchlist.find(query).toArray()
@@ -16,7 +16,7 @@ route.post('/', async (req, res) => {
     if (arr.length >= 1) {
         res.send({data: arr[0]})
     } else {
-        const temp = [{movies: []}]
+        const temp = [{watch: []}]
         res.send({data: temp})
     }
 })
