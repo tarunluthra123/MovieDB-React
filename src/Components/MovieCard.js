@@ -17,7 +17,8 @@ const MovieCard = (props) => {
 
     const fetchData = async (movieId) => {
         setLoading(true);
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US`
+        const API_KEY = process.env.REACT_APP_API_KEY
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`
         const res = await fetch(url)
         if (res.ok) {
             const movie = await res.json()

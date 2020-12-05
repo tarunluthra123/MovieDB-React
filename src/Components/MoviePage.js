@@ -18,8 +18,8 @@ const MoviePage = (props) => {
 
     const fetchData = async (movieId) => {
         setLoading(true)
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US`
-        // const url = `https://api.themoviedb.org/3/find/${movieId}?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&external_source=imdb_id`
+        const API_KEY = process.env.REACT_APP_API_KEY
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`
         const res = await fetch(url)
         console.log("Movie Page - res = ", res)
         if (res.ok) {

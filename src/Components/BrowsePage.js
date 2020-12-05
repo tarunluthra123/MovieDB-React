@@ -13,6 +13,7 @@ const BrowsePage = (props) => {
     const [searchQueryText, setSearchQueryText] = useState('');
     const [searchGenre, setSearchGenre] = useState(false);
     const [genreList, setGenreList] = useState([]);
+    const API_KEY = process.env.REACT_APP_API_KEY;
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
@@ -54,7 +55,7 @@ const BrowsePage = (props) => {
             setSearching(true)
             setBrowseMovies([])
         }
-        const url = `https://api.themoviedb.org/3/search/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&query=${searchQueryText}&page=${currentPage}&include_adult=false`
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchQueryText}&page=${currentPage}&include_adult=false`
         const response = await fetch(url)
         const browseMovies = []
         if (response.ok) {
@@ -75,7 +76,7 @@ const BrowsePage = (props) => {
 
     const renderBrowseMovies = async () => {
         let browseMoviesList = []
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${currentPage}`
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${currentPage}`
         const response = await fetch(url)
         if (response.ok) {
             const data = await response.json()
@@ -123,7 +124,7 @@ const BrowsePage = (props) => {
             setSearchGenre(true)
             setBrowseMovies([])
         }
-        let url = `https://api.themoviedb.org/3/discover/movie?api_key=d58582022280bcdb78bf8e7f96517a62&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=`
+        let url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=`
         url += genreList[0]
         for (let i = 1; i < genreList.length; i++) {
             url += "%2C" + genreList[1]
