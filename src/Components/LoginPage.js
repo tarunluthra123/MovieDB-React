@@ -17,9 +17,7 @@ class LoginPage extends Component {
         this.props.history.push('/')
     }
 
-    loginUser = (e) => {
-        const target = e.target
-        console.log("e = ", e)
+    loginUser = () => {
         console.log(this.usernameInput.current.value, this.passwordInput.current.value)
         this.props.loginUserAPI(this.usernameInput.current.value, this.passwordInput.current.value, this.callbackFunctionForLogin)
     }

@@ -1,62 +1,51 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import {withRouter} from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
-class NavBar extends Component {
-    constructor(props) {
-        super(props);
-    }
+const NavBar = (props) => {
+    const [currentUser, setCurrentUser] = useContext(UserContext);
 
-    componentDidMount() {
-        if (this.props.currentUser !== '') {
-            this.setState({
-                currentUser: this.props.currentUser
-            })
-        }
-    }
-
-    renderUserBox = () => {
-        if (this.props.currentUser !== '') {
+    const renderUserBox = () => {
+        if (currentUser !== '') {
             return (
                 <div className="p-2 m-2">
-                    <h3>Hello {this.props.currentUser}</h3>
+                    <h3>Hello {currentUser}</h3>
                 </div>
             )
         } else {
             return (
-                <p className={"btn"} onClick={() => this.redirectToLink('/login')}>Login</p>
+                <p className={"btn"} onClick={() => redirectToLink('/login')}>Login</p>
             )
         }
     }
 
-    redirectToLink = (link) => {
-        this.props.history.push(link)
+    const redirectToLink = (link) => {
+        props.history.push(link)
     }
 
-    logoutUser = () => {
-        this.props.logoutUser()
-        this.props.history.push('/')
+    const logoutUser = () => {
+        props.logoutUser()
+        props.history.push('/')
     }
 
-    render() {
-        return (
-            <div className="sidenav" id="mySidenav">
-                {this.renderUserBox()}
-                <p className={"btn"} onClick={() => this.redirectToLink('/')}>Browse</p>
-                {this.props.currentUser !== '' && (
-                    <div>
-                        <p className={"btn"} onClick={() => this.redirectToLink('/mymovies')}>My Movies </p>
-                        <p className={"btn"} onClick={() => this.redirectToLink('/watchlist')}>Watchlist</p>
-                    </div>
-                )}
-                <p className={"btn"} onClick={() => this.redirectToLink('/about')}>About</p>
-                {this.props.currentUser !== '' && (
-                    <p className={"btn"} onClick={this.logoutUser}>Log out</p>
-                )}
-                <br/><br/><br/>
-                Info from TMDB
-            </div>
-        );
-    }
+    return (
+        <div className="sidenav" id="mySidenav">
+            {renderUserBox()}
+            <p className={"btn"} onClick={() => redirectToLink('/')}>Browse</p>
+            {currentUser !== '' && (
+                <div>
+                    <p className={"btn"} onClick={() => redirectToLink('/mymovies')}>My Movies </p>
+                    <p className={"btn"} onClick={() => redirectToLink('/watchlist')}>Watchlist</p>
+                </div>
+            )}
+            <p className={"btn"} onClick={() => redirectToLink('/about')}>About</p>
+            {currentUser !== '' && (
+                <p className={"btn"} onClick={logoutUser}>Log out</p>
+            )}
+            <br /><br /><br />
+            Info from TMDB
+        </div>
+    );
 }
 
 export default withRouter(NavBar);

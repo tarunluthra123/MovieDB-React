@@ -1,39 +1,21 @@
-import React, {Component} from 'react';
+import React, {useContext,useState} from 'react';
 import MovieCard from "./MovieCard";
 import {withRouter} from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import { ListContext } from '../context/ListContext'
 
-class MyMoviesPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentUser: props.currentUser,
-            movieList: props.movieList,
-            loading: false
-        }
-        console.log('my movies')
+const MyMoviesPage = (props) => {
+    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const [movieList, setMovieList,watchMovies,setWatchMovies] = useContext(ListContext)
+    const [loading, setLoading] = useState(false);
+
+    const updateLists = async (movieId, currentList, addToList) => {
+        setLoading(true);
+        await props.updateLists(movieId, currentList, addToList)
+        setLoading(false)
     }
 
-    updateLists = (movieId, currentList, addToList) => {
-        this.setState({
-            loading: true
-        }, async () => {
-            await this.props.updateLists(movieId, currentList, addToList)
-            const movieList = this.state.movieList
-            let index = movieList.indexOf(movieId)
-            if (index > -1) {
-                movieList.splice(index, 1)
-                this.setState({
-                    watchMovies: movieList
-                })
-            }
-            this.setState({
-                loading: false
-            })
-        })
-    }
-
-    renderMyMovies = () => {
-        const {loading, movieList} = this.state
+    const renderMyMovies = () => {
         if (loading) {
             return (
                 <p>Loading...</p>
@@ -43,7 +25,7 @@ class MyMoviesPage extends Component {
             <React.Fragment>
                 {movieList && movieList.length > 0 && movieList.map(movieId => {
                     return (<MovieCard movieId={movieId} currentList={'mymovies'} className="col"
-                                       updateLists={this.updateLists} currentUser={this.props.currentUser}/>)
+                                       updateLists={updateLists} />)
                 })}
                 {movieList && movieList.length === 0 && (
                     <p><h4>
@@ -57,20 +39,18 @@ class MyMoviesPage extends Component {
     }
 
 
-    render() {
-        if (this.props.currentUser === '') {
-            return (
-                <div className="p-2 m-2">
-                    You must be logged in.
-                </div>
-            )
-        }
+    if (currentUser === '') {
         return (
-            <div className="p-2 m-2 row">
-                {this.renderMyMovies()}
+            <div className="p-2 m-2">
+                You must be logged in.
             </div>
-        );
+        )
     }
+    return (
+        <div className="p-2 m-2 row">
+            {renderMyMovies()}
+        </div>
+    );
 }
 
 export default withRouter(MyMoviesPage);
