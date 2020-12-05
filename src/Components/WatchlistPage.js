@@ -4,7 +4,7 @@ import {ListContext} from '../context/ListContext'
 
 const WatchlistPage = (props) => {
     const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
-    const [loading,setLoading] = useState(true)
+    const [loading,setLoading] = useState(false)
 
     const updateLists = async (movieId, currentList, addToList) => {
         setLoading(true)

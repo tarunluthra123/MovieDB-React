@@ -4,11 +4,9 @@ const MongoClient = require('mongodb').MongoClient
 const route = require('express').Router()
 
 route.post('/', async (req, res) => {
-    // console.log("req = ", req)
     let query = {
         username: req.body.username
     }
-    console.log(query)
     try {
         const db = await MongoClient.connect(MONGO_URL)
         const movies = db.collection('movies')

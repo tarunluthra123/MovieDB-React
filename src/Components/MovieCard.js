@@ -23,7 +23,7 @@ const MovieCard = (props) => {
             const movie = await res.json()
             setMovie(movie)
             setLoading(false)
-            console.log('movie overview =', movie.overview.length)
+            // console.log('movie overview =', movie.overview.length)
             if (movie.overview.length >= 150) {
                 setFlag(false)
             }
@@ -109,7 +109,7 @@ const MovieCard = (props) => {
             </div>
         )
     } else {
-        console.log("Movie = ", movie)
+        // console.log("Movie = ", movie)
         if (loading) {
             return (
                 <Card>

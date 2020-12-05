@@ -14,12 +14,22 @@ import { ListContext } from './context/ListContext'
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
-    const [movieList, setMovieList,watchMovies,setWatchMovies] = useContext(ListContext)
+    const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
+    const [userLoggingIn,setUserLoggingIn] = useState(false)
 
     useEffect(() => {
         if (currentUser !== '')
             fetchData().then(fetchUserMovies).then(fetchUserWatchList)
-    },[])
+    }, [])
+    
+    useEffect(() => {
+        if (userLoggingIn) {
+            if (currentUser != '') {
+                setUserLoggingIn(false)
+                fetchData().then(fetchUserMovies).then(fetchUserWatchList)
+            }
+        }
+    })
 
     const fetchData = async () => {
         const res = await fetch('/ping')
@@ -48,8 +58,9 @@ const App = (props) => {
             if (msg === 'incorrect') {
                 alert("Incorrect username or password")
             } else {
+                console.log("abracadbra")
+                setUserLoggingIn(true)
                 setCurrentUser(username)
-                fetchData().then(fetchUserMovies).then(fetchUserWatchList)
                 callbackFromLoginPage()
             }
         }
@@ -63,12 +74,9 @@ const App = (props) => {
                 username: currentUser
             })
         })
-        console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log("new user data = ", data)
             const movieNames = data.data.movieNames || []
-            console.log(movieNames)
             setMovieList(movieNames)
         } else {
             console.log("Could not fetch user movies")
@@ -84,10 +92,10 @@ const App = (props) => {
                 username: currentUser
             })
         })
-        console.log(response)
         if (response.ok) {
             const data = await response.json()
-            console.log("new user watch= ", data)
+            const newWatchList = data.data.watch || []
+            setWatchMovies(newWatchList)
         } else {
             console.log("Could not fetch watchlist")
         }
