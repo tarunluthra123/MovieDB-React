@@ -17,7 +17,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "dotenv": "^8.2.0"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,7 +37,6 @@
   },
   "devDependencies": {
     "bootstrap": "^4.5.0",
-    "dotenv": "^8.2.0",
     "mongodb": "^2.2.36",
     "nodemon": "^2.0.4",
     "nvm": "0.0.4",
