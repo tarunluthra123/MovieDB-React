@@ -13,7 +13,7 @@ import { UserContext } from './context/UserContext'
 import { ListContext } from './context/ListContext' 
 
 const App = (props) => {
-    const [currentUser, setCurrentUser] = useContext(UserContext);
+    const [currentUser, setCurrentUser, token, setToken] = useContext(UserContext);
     const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
     const [userLoggingIn,setUserLoggingIn] = useState(false)
 
@@ -23,6 +23,19 @@ const App = (props) => {
     }, [])
     
     useEffect(() => {
+        const storageToken = localStorage.getItem('movie-db-react-auth-token')
+        if (storageToken) {
+            console.log({ storageToken })
+            fetch('/api/login?token=' + storageToken)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.username.length >= 1) {
+                        setCurrentUser(data.username)
+                        setToken(storageToken)
+                    }
+                })
+        }
         if (userLoggingIn) {
             if (currentUser != '') {
                 setUserLoggingIn(false)
@@ -40,7 +53,7 @@ const App = (props) => {
         }
     }
 
-    const loginUserAPI = async (username, password, callbackFromLoginPage) => {
+    const loginUserAPI = async (username, password, callback) => {
         const request = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -58,10 +71,12 @@ const App = (props) => {
             if (msg === 'incorrect') {
                 alert("Incorrect username or password")
             } else {
-                console.log("abracadbra")
+                const {token} = data
                 setUserLoggingIn(true)
+                setToken(token)
+                localStorage.setItem('movie-db-react-auth-token',token)
                 setCurrentUser(username)
-                callbackFromLoginPage()
+                callback()
             }
         }
     }
@@ -71,12 +86,13 @@ const App = (props) => {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: currentUser
+                username: currentUser,
+                token
             })
         })
         if (response.ok) {
             const data = await response.json()
-            const movieNames = data.data.movieNames || []
+            const movieNames = (data.data && data.data.movieNames) || []
             setMovieList(movieNames)
         } else {
             console.log("Could not fetch user movies")
@@ -89,12 +105,13 @@ const App = (props) => {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: currentUser
+                username: currentUser,
+                token
             })
         })
         if (response.ok) {
             const data = await response.json()
-            const newWatchList = data.data.watch || []
+            const newWatchList = (data.data && data.data.watch) || []
             setWatchMovies(newWatchList)
         } else {
             console.log("Could not fetch watchlist")
@@ -133,11 +150,12 @@ const App = (props) => {
                 username: currentUser,
                 removeFromList: removeFromList,
                 addToList: addToList,
-                movieId: movieId
+                movieId: movieId,
+                token
             })
         })
 
-        console.log(response)
+        // console.log(response)
 
         if (response.ok) {
             const data = await response.json()
@@ -151,6 +169,8 @@ const App = (props) => {
         setMovieList([])
         setWatchMovies([])
         setCurrentUser('')
+        setToken('')
+        localStorage.removeItem('movie-db-react-auth-token')
     }
 
     return (

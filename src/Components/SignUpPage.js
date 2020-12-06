@@ -18,8 +18,8 @@ class SignUpPage extends Component {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: username,
-                password: password
+                username,
+                password
             })
         }
         const response = await fetch('/api/signup', request)

@@ -97,7 +97,7 @@ const BrowsePage = (props) => {
 
     const updateLists = async (movieId, currentList, addToList) => {
         setLoading(true)
-        await this.props.updateLists(movieId, currentList, addToList)
+        await props.updateLists(movieId, currentList, addToList)
         let index = browseMovies.indexOf(movieId)
         if (index > -1) {
             browseMovies.splice(index, 1)

@@ -1,5 +1,6 @@
 const {MONGO_URL} = require('../mongodb/connection')
 const MongoClient = require('mongodb').MongoClient
+const {verifyToken} = require('../jwt')
 
 const route = require('express').Router()
 
@@ -10,7 +11,6 @@ async function addToMyMovies(username, movieId) {
         {username: username},
         {$addToSet: {movieNames: movieId}}
     )
-    // console.log(res)
     return res
 }
 
@@ -22,7 +22,6 @@ async function addToWatchlist(username, movieId) {
         {username: username},
         {$addToSet: {watch: movieId}}
     )
-    // console.log(res)
     return res
 }
 
@@ -33,7 +32,6 @@ async function removeFromMyMovies(username, movieId) {
         {username: username},
         {$pull: {movieNames: {$in: [movieId]}}}
     )
-    // console.log(res)
     return res
 }
 
@@ -44,12 +42,15 @@ async function removeFromWatchlist(username, movieId) {
         {username: username},
         {$pull: {watch: {$in: [movieId]}}}
     )
-    // console.log(res)
     return res
 }
 
 route.post('/', async (req, res) => {
-    const {username, movieId, removeFromList, addToList} = req.body
+    const { username, movieId, removeFromList, addToList, token } = req.body
+    const tokenVerified = verifyToken(token)
+    if (!tokenVerified) {
+        res.send({error:"Invalid auth token"})
+    }
     let removeRes, addRes;
     try {
         if (removeFromList === 'mymovies') {
