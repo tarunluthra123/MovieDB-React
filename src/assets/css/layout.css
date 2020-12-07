@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap");
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(75, 89, 107);
+  padding: 0 4em;
+  height: 10vh;
+}
+
+.topBar span {
+  font-size: 2.2rem;
+  font-family: "Merriweather", serif;
+  color: rgb(113, 244, 248);
+}
+
+.topBar nav {
+  min-width: 40vw;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.topBar nav a {
+  padding: 0 3%;
+  font-size: 1.5rem;
+  font-family: "Merriweather", serif;
+  text-decoration: none;
+  color: rgb(215, 224, 226);
+}
+
+.displayContainer {
+  background-color: rgb(124, 145, 172);
+  min-height: 90vh;
+}
