@@ -37,10 +37,6 @@
   }
 }
 
-.movieCardBody {
-  width: 18rem;
-}
-
 .moviePageReleaseDate {
   font-size: 30px;
   font-weight: bold;
@@ -99,10 +95,6 @@
     font-size: 20px;
   }
 
-  .movieCardBody {
-    /*width: 16rem*/
-  }
-
   .strokeme {
     font-size: 60px;
   }
@@ -146,10 +138,6 @@
     font-size: 15px;
   }
 
-  .movieCardBody {
-    /*width: 13rem;*/
-  }
-
   .strokeme {
     font-size: 50px;
   }
@@ -183,4 +171,13 @@
   .browsePageSearchBox {
     width: 20rem;
   }
+}
+
+.loadingContainer {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 3em;
+  color: rgb(218, 228, 231);
 }

@@ -1,7 +1,8 @@
 import React, {useEffect ,useContext, useState} from 'react';
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, Spinner} from "react-bootstrap";
 import { withRouter } from 'react-router-dom';
-import {UserContext} from '../context/UserContext'
+import { UserContext } from '../context/UserContext'
+import '../assets/css/moviecard.css'
 
 const MovieCard = (props) => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
@@ -65,7 +66,7 @@ const MovieCard = (props) => {
                             className="col p-2 m-2">Add to My Movies</Button>
                     <Button variant="success"
                             onClick={async () => await props.updateLists(movieId, currentList, 'browse')}
-                            className="colp-2 m-2">Remove from Watchlist</Button>
+                            className="col p-2 m-2">Remove from Watchlist</Button>
                 </div>
             )
         }
@@ -74,7 +75,7 @@ const MovieCard = (props) => {
     const renderMovieDescription = () => {
         if (loading)
             return <p>Loading..</p>
-        let text = movie.overview
+        const text = movie.overview
         if (flag) {
             //Read more not required
             return (
@@ -83,7 +84,7 @@ const MovieCard = (props) => {
                 </p>
             )
         } else {
-            let shorterText = text.substr(0, 145)
+            const shorterText = text.substr(0, 145)
             return (
                 <div>
                     {shorterText}...
@@ -105,36 +106,26 @@ const MovieCard = (props) => {
 
     if (loading) {
         return (
-            <div>
-                Loading...
-            </div>
-        )
-    } else {
-        // console.log("Movie = ", movie)
-        if (loading) {
-            return (
-                <Card>
-                    <Card.Body>
-                        Loading...
-                    </Card.Body>
-                </Card>
-            )
-        }
-        return (
             <Card className="border-dark p-2 m-3 movieCardBody">
-                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
-                            height="400" onClick={redirectToMoviePage} className={"btn"}/>
                 <Card.Body>
-                    <Card.Title className="h1 btn"
-                                onClick={redirectToMoviePage}>{movie && movie.title + ' (' + movie.release_date.substr(0, 4) + ')'}</Card.Title>
-                    <Card.Text>
-                        {!loading && movie && renderMovieDescription()}
-                    </Card.Text>
-                    {currentUser && renderButtonBox()}
+                    <Spinner animation="border" variant="info" />
                 </Card.Body>
             </Card>
-        );
+        )
     }
+    return (
+        <Card className="border-dark p-2 m-3 movieCardBody">
+            <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${movie && movie.poster_path}`}
+                        height="400" onClick={redirectToMoviePage} className={"btn"}/>
+            <Card.Body>
+                <div onClick={redirectToMoviePage} className="movie-card-title">
+                    {movie && movie.title + ' (' + movie.release_date.substr(0, 4) + ')'}
+                </div>
+                {!loading && movie && renderMovieDescription()}
+                {currentUser && renderButtonBox()}
+            </Card.Body>
+        </Card>
+    );
 }
 
 export default withRouter(MovieCard);

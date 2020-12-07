@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { ListContext } from '../context/ListContext'
 import '../assets/css/mymoviespage.css'
+import { Spinner } from 'react-bootstrap'
 
 const MyMoviesPage = (props) => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
@@ -31,7 +32,11 @@ const MyMoviesPage = (props) => {
     }
     if (loading) {
         return (
-            <p>Loading...</p>
+            <div className="loadingContainer">
+                <span>
+                    <Spinner animation="border" variant="primary" />  Fetching Data ... 
+                </span>
+            </div>
         )
     }
     return (

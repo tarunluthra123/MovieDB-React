@@ -179,7 +179,7 @@ const App = (props) => {
                 <Layout logoutUser={logoutUser}>
                     <Switch>
                         <Route exact path='/' component={BrowsePage}>
-                            <BrowsePage updateLists={updateLists} />
+                            <BrowsePage updateLists={updateLists} fetchUserMovies={fetchUserMovies} fetchUserWatchList={fetchUserWatchList}/>
                         </Route>
                         <Route exact path='/login' component={LoginPage}>
                             <LoginPage loginUserAPI={loginUserAPI}/>
@@ -188,7 +188,7 @@ const App = (props) => {
                             <MyMoviesPage updateLists={updateLists} fetchUserMovies={fetchUserMovies}/>
                         </Route>
                         <Route exact path='/watchlist' component={WatchlistPage}>
-                            <WatchlistPage updateLists={updateLists}/>
+                            <WatchlistPage updateLists={updateLists} fetchUserWatchList={fetchUserWatchList}/>
                         </Route>
                         <Route exact path='/movie/:movieId' render={({match}) => (
                             <MoviePage updateLists={updateLists} match={match} />)}>

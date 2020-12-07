@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MovieCard from "./MovieCard";
 import SearchBox from "./SearchBox";
-import { Card } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import { ListContext } from '../context/ListContext'
 import '../assets/css/browse.css'
 
@@ -19,7 +19,16 @@ const BrowsePage = (props) => {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
+
+        if (watchMovies.length == 0) {
+            props.fetchUserWatchList()
+        }
+        if (movieList.length === 0) {
+            props.fetchUserMovies()
+        }
+
         renderBrowseMovies()
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -163,7 +172,11 @@ const BrowsePage = (props) => {
                 </Card>
             </div>
             <div className="browseCardsContainer row">
-                    {loading && (<p>Loading...</p>)}
+                    {loading && (<div className="loadingContainer">
+                <span>
+                    <Spinner animation="border" variant="primary" />  Fetching Data ... 
+                </span>
+            </div>)}
                     {!loading && browseMovies && (
                         <React.Fragment>
                             {browseMovies.map(imdbMovieId => {
