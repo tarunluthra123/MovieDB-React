@@ -1,8 +1,9 @@
-import React, {useState,useContext,useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MovieCard from "./MovieCard";
 import SearchBox from "./SearchBox";
 import { Card } from "react-bootstrap";
-import {ListContext} from '../context/ListContext'
+import { ListContext } from '../context/ListContext'
+import '../assets/css/browse.css'
 
 const BrowsePage = (props) => {
     const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
@@ -13,6 +14,7 @@ const BrowsePage = (props) => {
     const [searchQueryText, setSearchQueryText] = useState('');
     const [searchGenre, setSearchGenre] = useState(false);
     const [genreList, setGenreList] = useState([]);
+    const [loadmore, setLoadmore] = useState(false);
     const API_KEY = process.env.REACT_APP_API_KEY;
 
     useEffect(() => {
@@ -23,18 +25,22 @@ const BrowsePage = (props) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (!loadmore)
+            return
+        renderBrowseMovies()
+        setLoadmore(false)
+    },[loadmore])
+
     const handleScroll = () => {
         const currentScroll = window.scrollY
-        const maxScroll = document.body.offsetHeight - window.innerHeight;
-
-        // console.log(currentScroll, maxScroll)
-
-        if (maxScroll - currentScroll <= 150) {
-            setCurrentPage(currentPage+1)
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        if (Math.abs(maxScroll - currentScroll) <= 200) {
+            setCurrentPage(prevPage => prevPage + 1)
             if (searching) {
                 searchMoviesOnQuery(searchQueryText)
             } else {
-                renderBrowseMovies()
+                setLoadmore(true)
             }
         }
     }
@@ -75,6 +81,7 @@ const BrowsePage = (props) => {
     }
 
     const renderBrowseMovies = async () => {
+        console.log('render browse movies',currentPage) 
         let browseMoviesList = []
         const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${currentPage}`
         const response = await fetch(url)
@@ -149,23 +156,21 @@ const BrowsePage = (props) => {
 
     return (
         <div className="">
-            <div className="container">
+            <div className="searchBoxContainer">
                 <Card className="browsePageSearchBox">
                     <SearchBox searchMoviesOnQuery={searchMoviesOnQuery}
                                 searchMoviesByGenreIDs={searchMoviesByGenreIDs}/>
                 </Card>
             </div>
-            <div className="container-fluid">
-                <div className="row">
+            <div className="browseCardsContainer row">
                     {loading && (<p>Loading...</p>)}
                     {!loading && browseMovies && (
                         <React.Fragment>
                             {browseMovies.map(imdbMovieId => {
-                                return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className=" col" updateLists={updateLists} />)
+                                return (<MovieCard movieId={imdbMovieId} currentList={'browse'} className="col" updateLists={updateLists} />)
                             })}
                         </React.Fragment>
                     )}
-                </div>
             </div>
         </div>
     );

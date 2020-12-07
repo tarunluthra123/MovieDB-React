@@ -65,7 +65,7 @@ const MovieCard = (props) => {
                             className="col p-2 m-2">Add to My Movies</Button>
                     <Button variant="success"
                             onClick={async () => await props.updateLists(movieId, currentList, 'browse')}
-                            className="col p-2 m-2">Remove from Watchlist</Button>
+                            className="colp-2 m-2">Remove from Watchlist</Button>
                 </div>
             )
         }

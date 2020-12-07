@@ -1,10 +1,12 @@
-import React,{useContext} from 'react';
+import React,{ useContext, useRef} from 'react';
 import { UserContext } from '../context/UserContext'
 import { Link, withRouter, useHistory } from 'react-router-dom'
 import '../assets/css/layout.css'
 
 const Layout = (props) => {
     const [currentUser, setCurrentUser] = useContext(UserContext);
+    const navRef = useRef();
+    const displayContainerRef = useRef();
     const history = useHistory()
 
     function logoutMethod() {
@@ -12,11 +14,16 @@ const Layout = (props) => {
         history.push('/')
     }
 
+    function toggleSideNav() {
+        navRef.current.classList.toggle('active')
+        displayContainerRef.current.classList.toggle('active')
+    }
+
     return (
         <div className="layoutContainer">
-            <div class="topBar">        
+            <div className="topBar">        
                 <span>Movie DB</span>
-                <nav>
+                <nav ref={navRef}>
                     <Link to='/'>Browse</Link>
                     <Link to='mymovies'>My Movies</Link>
                     <Link to='watchlist'>Watchlist</Link>
@@ -27,8 +34,13 @@ const Layout = (props) => {
                     {currentUser &&
                         <a href="#" onClick={logoutMethod}>Log out</a> }
                 </nav>
+                <div className="hamburger" onClick={toggleSideNav}>
+                    <div className="line line1" />
+                    <div className="line line2" />
+                    <div className="line line3" />
+                </div>
             </div>
-            <div className="displayContainer">
+            <div className="displayContainer" ref={displayContainerRef}>
                 {props.children}
             </div>
         </div>

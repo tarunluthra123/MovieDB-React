@@ -26,11 +26,9 @@ const App = (props) => {
     useEffect(() => {
         const storageToken = localStorage.getItem('movie-db-react-auth-token')
         if (storageToken) {
-            console.log({ storageToken })
             fetch('/api/login?token=' + storageToken)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     if (data.username.length >= 1) {
                         setCurrentUser(data.username)
                         setToken(storageToken)
@@ -43,7 +41,7 @@ const App = (props) => {
                 fetchData().then(fetchUserMovies).then(fetchUserWatchList)
             }
         }
-    })
+    },[])
 
     const fetchData = async () => {
         const res = await fetch('/ping')
@@ -94,6 +92,7 @@ const App = (props) => {
         if (response.ok) {
             const data = await response.json()
             const movieNames = (data.data && data.data.movieNames) || []
+            console.log(movieNames)
             setMovieList(movieNames)
         } else {
             console.log("Could not fetch user movies")
@@ -186,7 +185,7 @@ const App = (props) => {
                             <LoginPage loginUserAPI={loginUserAPI}/>
                         </Route>
                         <Route exact path='/mymovies' component={MyMoviesPage}>
-                            <MyMoviesPage updateLists={updateLists}/>
+                            <MyMoviesPage updateLists={updateLists} fetchUserMovies={fetchUserMovies}/>
                         </Route>
                         <Route exact path='/watchlist' component={WatchlistPage}>
                             <WatchlistPage updateLists={updateLists}/>
