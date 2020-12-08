@@ -2,13 +2,14 @@ import React from 'react';
 import MailIcon from '../assets/mail_icon.png'
 import GithubIcon from '../assets/github_icon.png'
 import LinkedInIcon from '../assets/linkedin_logo.png'
+import '../assets/css/about.css'
 
 export default function AboutPage(props) {
     return (
-        <div style={{ 'font-size': '20px' }}>
+        <div className="about-page-container">
             <h1>Movie DB</h1>
             <p>
-                <strong style={{ 'font-size': '24px' }}>About the project</strong><br />
+                <strong>About the project</strong><br />
                 The Movie DB is a non-profit project created by an individual developer solely for educational
                 purposes.
                 This website/project is in no way affiliated with any organisation whatsoever.The entire purpose of
@@ -23,7 +24,7 @@ export default function AboutPage(props) {
             </p>
             <br />
             <p>
-                <strong style={{ 'font-size': '24px' }}>Info</strong><br />
+                <strong>Info</strong><br />
                 All information about movies displayed on the website is fetched from TMDB API (<a
                     href="https://www.themoviedb.org/" target={"_blank"}>https://www.themoviedb.org/</a>). For any
                 disrepancies, directly contact TMDB staff.
@@ -37,7 +38,7 @@ export default function AboutPage(props) {
             </p>
             <br />
             <p>
-                <strong style={{ 'font-size': '24px' }}>Contact the Developer</strong><br />
+                <strong>Contact the Developer</strong><br />
                 Feel free to drop any suggestions or queries.<br />
                 <img src={MailIcon} alt={"Mail"} width={30} />
                 <a href={"mailto:tarunluthra987@gmail.com"} target={"_blank"}>
@@ -55,7 +56,6 @@ export default function AboutPage(props) {
                 <a href={"https://www.linkedin.com/in/tarunluthra123/"} target={"_blank"}>
                     tarunluthra123
                 </a>
-
             </p>
         </div>
     );

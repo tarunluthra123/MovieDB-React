@@ -1,0 +1,17 @@
+.login-page-container {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  color: rgb(245, 255, 249);
+  font-family: "Merriweather", sans-serif;
+  padding-top: 1em;
+  min-height: 70vh;
+}
+
+.login-page-container .card {
+  color: black;
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.3rem;
+  margin-top: 1em;
+}

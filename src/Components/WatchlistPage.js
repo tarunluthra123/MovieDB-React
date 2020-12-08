@@ -1,11 +1,13 @@
 import React, {useContext,useState,useEffect} from 'react';
 import MovieCard from "./MovieCard";
 import { ListContext } from '../context/ListContext'
+import { UserContext } from '../context/UserContext'
 import '../assets/css/watchlist.css'
 import { Spinner } from 'react-bootstrap'
 
 const WatchlistPage = (props) => {
     const [movieList, setMovieList, watchMovies, setWatchMovies] = useContext(ListContext)
+    const [currentUser, setCurrentUser] = useContext(UserContext);
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -24,6 +26,13 @@ const WatchlistPage = (props) => {
                 <span>
                     <Spinner animation="border" variant="primary" />  Fetching Data ... 
                 </span>
+            </div>
+        )
+    }
+    if (currentUser === '') {
+        return (
+            <div className="p-2 m-2">
+                You must be logged in.
             </div>
         )
     }

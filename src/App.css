@@ -119,10 +119,6 @@
     height: 70px;
   }
 
-  .movieDbOrgLogo {
-    width: 400px;
-  }
-
   .browsePageSearchBox {
     width: 30rem;
   }
@@ -160,10 +156,6 @@
 
   .moviePageImdbLogo {
     height: 50px;
-  }
-
-  .movieDbOrgLogo {
-    width: 300px;
   }
 }
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import '../assets/css/signup.css'
 
 
 class SignUpPage extends Component {
@@ -37,14 +38,24 @@ class SignUpPage extends Component {
 
     render() {
         return (
-            <div className="p-2 m-2">
+            <div className="sign-up-container">
                 <h1 align="center">Sign Up</h1>
                 <div className={"container card card-body"}>
                     Username : <input type="text" name="username" ref={this.usernameInput} placeholder={'Username'}/>
                     <br/>
                     Password : <input type="password" name="pass" ref={this.passwordInput} placeholder={'Password'}/>
                     <br/>
-                    <button type="submit" className="btn btn-primary btn-lg" onClick={this.signUpUser}>Sign Up</button>
+                    <button type="submit" className="btn btn-info btn-lg" onClick={this.signUpUser}>Sign Up</button>
+                </div>
+                <div className="container card card-body">
+                    <h4>
+                        Already have an account ? <br />
+                        That's awesome !! <br/>
+                    </h4>
+                    <button type="submit" className="btn btn-outline-success btn-lg"
+                            onClick={() => this.props.history.push('/login')}>
+                        Login Here
+                    </button>
                 </div>
             </div>
         );

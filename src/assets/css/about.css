@@ -1,0 +1,41 @@
+.about-page-container {
+  font-family: "Merriweather", sans-serif;
+  color: rgb(4, 4, 5);
+  font-size: 1.2em;
+  padding: 1em 10vw;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+.about-page-container h1 {
+  font-size: 3.5em;
+  color: rgb(92, 226, 238);
+}
+
+.about-page-container strong {
+  font-size: 2em;
+  text-decoration: underline;
+}
+
+.about-page-container a {
+  padding: 0.5em;
+  color: rgb(174, 243, 243);
+  text-decoration: underline;
+}
+
+.about-page-container .btn {
+  color: white;
+  text-decoration: none;
+}
+
+.about-page-container a:hover {
+  color: white;
+}
+
+.movieDbOrgLogo {
+  margin-top: 0.5em;
+}
