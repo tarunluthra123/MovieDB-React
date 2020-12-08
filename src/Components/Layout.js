@@ -26,9 +26,9 @@ const Layout = (props) => {
                 <nav ref={navRef}>
                     <Link to='/'>Browse</Link>
                     {currentUser &&
-                        <Link to='mymovies'>My Movies</Link>}
+                        <Link to='/mymovies'>My Movies</Link>}
                     {currentUser &&
-                        <Link to='watchlist'>Watchlist</Link>}
+                        <Link to='/watchlist'>Watchlist</Link>}
                     <Link to='/about'>About</Link>
                     {!currentUser &&
                         <Link to='/login'>Login</Link>}
