@@ -17,3 +17,15 @@
   justify-content: center;
   padding-top: 1rem;
 }
+
+@media (max-width: 970px) {
+  .browsePageSearchBox {
+    width: 30rem;
+  }
+}
+
+@media (max-width: 770px) {
+  .browsePageSearchBox {
+    width: 20rem;
+  }
+}

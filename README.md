@@ -54,7 +54,7 @@ Open two terminals.
 In the first terminal, start the server
 
 ```
-npm start
+yarn server
 ```
 
 This will start the server on port 5000. Change port number in server.js if you wish to run server on another port.
@@ -62,7 +62,7 @@ This will start the server on port 5000. Change port number in server.js if you 
 In the second terminal, start the react development server.
 
 ```
-npm run start-react
+yarn dev
 ```
 
 The project is up and running.
