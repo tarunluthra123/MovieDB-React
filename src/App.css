@@ -1,228 +1,47 @@
 .App {
-    text-align: center;
+  text-align: center;
 }
 
 .App-logo {
-    height: 40vmin;
-    pointer-events: none;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
 .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
 .App-link {
-    color: #61dafb;
+  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-
-/* The sidebar menu */
-.sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 15%; /* Set the width of the sidebar */
-    /*max-width: 250px;*/
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: #111; /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
-    color: white
+.loadingContainer {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 3em;
+  color: rgb(218, 228, 231);
 }
-
-/* The navigation menu links */
-.sidenav p {
-    /*padding: 6px 8px 6px 16px;*/
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav p:hover {
-    color: #f1f1f1;
-}
-
-/* Style page content */
-.main {
-    /*margin-left: 250px; !* Same as the width of the sidebar *!*/
-    /*padding: 0px 10px;*/
-}
-
-
-.movieCardBody {
-    width: 18rem
-}
-
-
-.moviePageReleaseDate {
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.moviePageOverview {
-    font-size: 25px
-}
-
-.moviePageBackgroundImage {
-    background-color: rgba(255, 255, 255, 0.3);
-    background-blend-mode: lighten;
-}
-
-.strokeme {
-    color: white;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    font-size: 80px;
-}
-
-.genreBadge {
-    font-size: 30px;
-}
-
-.moviePageImdbLogo {
-    height: 100px;
-}
-
-.browsePageSearchBox {
-    width: 50rem
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-        width: 10%
-    }
-
-    .sidenav p {
-        font-size: 18px;
-    }
-
-    .strokeme {
-        font-size: 40px;
-    }
-
-    .genreBadge {
-        font-size: 30px;
-    }
-}
-
-@media (max-width: 970px) {
-    .sidenav {
-        width: 13%;
-    }
-
-    .sidenav p {
-        font-size: 20px;
-    }
-
-    .movieCardBody {
-        /*width: 16rem*/
-    }
-
-    .strokeme {
-        font-size: 60px;
-    }
-
-    .genreBadge {
-        font-size: 25px;
-    }
-
-    .moviePageOverview {
-        font-size: 18px
-    }
-
-    .moviePageReleaseDate {
-        font-size: 20px;
-    }
-
-    .moviePagePoster {
-        height: 300px;
-    }
-
-    .moviePageImdbLogo {
-        height: 70px;
-    }
-
-    .movieDbOrgLogo {
-        width: 400px;
-    }
-
-    .browsePageSearchBox {
-        width: 30rem
-    }
-}
-
-@media (max-width: 785px) {
-    .sidenav {
-        font-size: 20px;
-        width: 20%
-    }
-
-    .sidenav p {
-        font-size: 15px;
-    }
-
-    .movieCardBody {
-        /*width: 13rem;*/
-    }
-
-    .strokeme {
-        font-size: 50px;
-    }
-
-    .genreBadge {
-        font-size: 20px;
-    }
-
-    .moviePageOverview {
-        font-size: 15px
-    }
-
-    .moviePageReleaseDate {
-        font-size: 15px;
-    }
-
-    .moviePagePoster {
-        height: 250px;
-    }
-
-    .moviePageImdbLogo {
-        height: 50px;
-    }
-
-    .movieDbOrgLogo {
-        width: 300px;
-    }
-}
-
-@media (max-width: 770px) {
-    .browsePageSearchBox {
-        width: 20rem
-    }
-}
-

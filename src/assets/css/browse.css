@@ -1,0 +1,31 @@
+.browseCardsContainer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+}
+
+.browseCardsContainer MovieCard {
+  min-width: 30vw;
+}
+
+.browsePageSearchBox {
+  width: 50vw;
+}
+
+.searchBoxContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+@media (max-width: 970px) {
+  .browsePageSearchBox {
+    width: 30rem;
+  }
+}
+
+@media (max-width: 770px) {
+  .browsePageSearchBox {
+    width: 20rem;
+  }
+}

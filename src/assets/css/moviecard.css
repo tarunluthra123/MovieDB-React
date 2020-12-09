@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.movieCardBody {
+  font-family: "Roboto", sans-serif;
+  width: 18rem;
+}
+
+.movie-card-title {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.5em;
+}

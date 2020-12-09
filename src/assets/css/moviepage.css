@@ -1,0 +1,122 @@
+.moviePageBackgroundImage {
+  background-color: rgba(255, 255, 255, 0.3);
+  background-blend-mode: lighten;
+  padding: 0.5rem 3rem;
+}
+
+.movie-page-container {
+  font-family: "Merriweather", sans-serif;
+}
+
+.moviePageImdbLogo {
+  width: 100%;
+  align-self: center;
+  align-items: center;
+}
+
+.genre-badges-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+.genreBadge {
+  background-color: grey;
+  color: white;
+  padding: 0.5em;
+  cursor: default;
+}
+
+.movie-page-title {
+  font-size: 3em;
+}
+
+.movie-page-title span {
+  background-color: white;
+  color: black;
+}
+
+.moviePagePoster {
+  height: 55vh;
+}
+
+.moviePageOverview {
+  font-size: 1.3em;
+}
+
+.movie-tagline {
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+.movie-tagline-container {
+  margin-top: 1em;
+}
+
+.movie-page-info-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.moviePageReleaseDate {
+  font-size: 1.2em;
+}
+
+.move-lists-buttons button {
+  size: large;
+  font-size: 1.5em;
+}
+
+.abc {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .moviePageOverview {
+    font-size: 1em;
+  }
+  .genre-badges-container {
+    font-size: 1em;
+  }
+
+  .moviePageReleaseDate {
+    font-size: 0.7em;
+  }
+  .move-lists-buttons button {
+    font-size: 1em;
+  }
+  .movie-tagline {
+    font-size: 0.8em;
+  }
+  .moviePagePoster {
+    height: 40vh;
+  }
+  .moviePageImdbLogo {
+    width: 80%;
+  }
+}
+
+@media (max-width: 650px) {
+  .moviePageBackgroundImage {
+    padding: 0.5rem 0.1vw;
+  }
+  .move-lists-buttons button {
+    font-size: 0.6em;
+  }
+  .genre-badges-container {
+    font-size: 0.7em;
+  }
+  .movie-tagline {
+    font-size: 0.7em;
+  }
+  .moviePagePoster {
+    height: 25vh;
+  }
+  .moviePageImdbLogo {
+    width: 125%;
+  }
+}
