@@ -1,5 +1,7 @@
 # Movie DB Project - React
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![npm](https://img.shields.io/npm/v/package) ![total-lines](https://img.shields.io/tokei/lines/github/tarunluthra123/MovieDB-React) ![node](https://img.shields.io/node/v/package) 
+
 This is a practice project made using React JS (for frontend), ExpressJS Backend with MongoDB.
 This project aims to create Movie Database searching and filtering using title or genres interface.
 Users can sort movies into lists as per their wish.
@@ -12,6 +14,7 @@ This project uses various technologies like :
 <li>ExpressJS
 <li>MongoDB
 <li>Semantic UI CSS
+<li>JSON Web Tokens
 </ul>
 <br>
 All movie related information is fetched from a third party API - <a href="https://www.themoviedb.org" target="_blank">themoviedb.org</a>.
